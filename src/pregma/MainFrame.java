@@ -399,7 +399,7 @@ t.schedule(new TimerTask() {
                     pst.setString(1, ino.getText());
                     pst.setString(2, Date);
                     pst.setString(3, combo_customer.getSelectedItem().toString());
-                    pst.setString(4, plateno.getText());
+                    pst.setString(4, plateno1.getText());
                     pst.setString(5, product.getSelectedItem().toString());
                     pst.setString(6, firstweight.getText());
                     pst.setString(7, secondweight.getText());
