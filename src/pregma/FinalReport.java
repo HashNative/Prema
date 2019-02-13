@@ -483,6 +483,11 @@ public class FinalReport extends javax.swing.JDialog {
         jLabel13.setText("To :");
 
         jButton1.setText("Export Report");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         purchases.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         purchases.setForeground(new java.awt.Color(153, 0, 51));
@@ -774,6 +779,10 @@ public class FinalReport extends javax.swing.JDialog {
         ViewPurchases();
         calculateTotal();
     }//GEN-LAST:event_combo_supplier_typeActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
