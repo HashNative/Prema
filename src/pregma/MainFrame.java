@@ -2974,11 +2974,15 @@ t.schedule(new TimerTask() {
     }//GEN-LAST:event_intime1KeyReleased
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-      new Suppliers(this, true).setVisible(true);
+      if("admin".equals(txt_userid.getText())) {
+        new Suppliers(this, true).setVisible(true);
+      }
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-       new Customers(this, true).setVisible(true);
+       if("admin".equals(txt_userid.getText())) {
+        new Customers(this, true).setVisible(true);
+       }
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
@@ -2994,7 +2998,9 @@ t.schedule(new TimerTask() {
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
-       new Stock(this, true).setVisible(true);
+       if("admin".equals(txt_userid.getText())) {
+           new Stock(this, true).setVisible(true);
+       }
     }//GEN-LAST:event_jMenuItem9ActionPerformed
 
     private void jPanel9MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel9MouseReleased
@@ -3010,11 +3016,15 @@ t.schedule(new TimerTask() {
     }//GEN-LAST:event_jPanel11MouseReleased
 
     private void jPanel12MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel12MouseReleased
-       new Suppliers(this, true).setVisible(true);
+       if("admin".equals(txt_userid.getText())) {
+           new Suppliers(this, true).setVisible(true);
+       }
     }//GEN-LAST:event_jPanel12MouseReleased
 
     private void jPanel13MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel13MouseReleased
-       new Customers(this, true).setVisible(true);
+       if("admin".equals(txt_userid.getText())){
+           new Customers(this, true).setVisible(true);
+       }
     }//GEN-LAST:event_jPanel13MouseReleased
 
     private void paid_amount1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_paid_amount1FocusGained
