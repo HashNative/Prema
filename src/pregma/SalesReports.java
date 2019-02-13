@@ -237,10 +237,8 @@ public class SalesReports extends javax.swing.JDialog {
             }
         });
 
-        jLabel12.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
         jLabel12.setText("From :");
 
-        jLabel13.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
         jLabel13.setText("To :");
 
         jDateChooser3.setDateFormatString("yyy-MM-dd");
@@ -293,6 +291,9 @@ public class SalesReports extends javax.swing.JDialog {
         invoicetable.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 invoicetableKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                invoicetableKeyReleased(evt);
             }
         });
         jScrollPane5.setViewportView(invoicetable);
@@ -365,6 +366,8 @@ public class SalesReports extends javax.swing.JDialog {
     }//GEN-LAST:event_invoicetableMouseClicked
 
     private void invoicetableKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_invoicetableKeyPressed
+      
+      if ("admin".equals(userid.getBytes())) {
         if (evt.getKeyCode() == KeyEvent.VK_DELETE) {
             if(invoicetable.getSelectedRowCount()>0){
                 int dialogButton = JOptionPane.YES_NO_OPTION;
@@ -406,8 +409,14 @@ public class SalesReports extends javax.swing.JDialog {
                 }
 
             }
-        }
+        }  
+      }
+        
     }//GEN-LAST:event_invoicetableKeyPressed
+
+    private void invoicetableKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_invoicetableKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_invoicetableKeyReleased
 
     /**
      * @param args the command line arguments
