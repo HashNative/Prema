@@ -130,9 +130,13 @@ public class SalesReports extends javax.swing.JDialog {
                 
                  if(!"user".equals(userid)){
                 v.add(rs.getString("net_weight"));
+                v.add(rs.getString("discount"));
+                v.add(rs.getString("transport"));
                 v.add(rs.getString("total"));
                 }else{
-                v.add(Double.parseDouble(rs.getString("net_weight"))*60/100+"");   
+                v.add(Double.parseDouble(rs.getString("net_weight"))*60/100+""); 
+                v.add(Double.parseDouble(rs.getString("discount"))*60/100+"");
+                v.add(Double.parseDouble(rs.getString("transport"))*60/100+"");
                 v.add(Double.parseDouble(rs.getString("total"))*60/100+"");
                 }
                 v.add(rs.getString("payment_method"));
@@ -165,9 +169,13 @@ public class SalesReports extends javax.swing.JDialog {
                 
                  if(!"user".equals(userid)){
                 v.add(rs.getString("net_weight"));
+                v.add(rs.getString("discount"));
+                v.add(rs.getString("transport"));
                 v.add(rs.getString("total"));
                 }else{
-                v.add(Double.parseDouble(rs.getString("net_weight"))*60/100+"");   
+                v.add(Double.parseDouble(rs.getString("net_weight"))*60/100+""); 
+                v.add(Double.parseDouble(rs.getString("discount"))*60/100+"");
+                v.add(Double.parseDouble(rs.getString("transport"))*60/100+"");
                 v.add(Double.parseDouble(rs.getString("total"))*60/100+"");
                 }
                 v.add(rs.getString("payment_method"));
@@ -272,11 +280,11 @@ public class SalesReports extends javax.swing.JDialog {
 
             },
             new String [] {
-                "GRN No", "Date", "User", "Customer", "Plate No", "Net weight", "Total", "Payment Method"
+                "GRN No", "Date", "User", "Customer", "Plate No", "Net weight", "Discount", "Transport", "Total", "Payment Method"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -304,6 +312,7 @@ public class SalesReports extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane5)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel16)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -318,8 +327,7 @@ public class SalesReports extends javax.swing.JDialog {
                         .addComponent(jDateChooser3, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButton3)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane5))
+                        .addGap(0, 52, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -336,8 +344,8 @@ public class SalesReports extends javax.swing.JDialog {
                     .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton3))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         pack();

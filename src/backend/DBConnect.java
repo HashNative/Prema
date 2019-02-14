@@ -27,7 +27,7 @@ public class DBConnect {
       */
 
        try{
-             InetAddress addr = InetAddress.getByName("DESKTOP-K4EFD5D"); //DESKTOP-K4EFD5D
+             InetAddress addr = InetAddress.getByName("localhost"); //DESKTOP-K4EFD5D
              //DESKTOP-K4EFD5D
 String host = addr.getHostAddress();
            Class.forName("com.mysql.jdbc.Driver");
