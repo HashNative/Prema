@@ -602,7 +602,7 @@ t.schedule(new TimerTask() {
                 double due_amount= net_total-Double.parseDouble(paid_amount.getText());
                 
                 txt_total.setText(df.format(total_amount)+"");
-                 txt_nettotal.setText(df.format(net_total)+"");
+                 txt_nettotal.setText(df.format(net_total)+df.format(transport.getText())+"");
                  due.setText(df.format(due_amount)+"");
     }
     
