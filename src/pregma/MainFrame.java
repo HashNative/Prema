@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -65,7 +66,7 @@ public class MainFrame extends javax.swing.JFrame implements SerialPortEventList
         
         getGRNNo();        
         jDateChooser4.setDate(c.getTime());     
-        getRecentVehicleAmount();
+        getRecentVehicleAmountForWeight();
         
     }
     
@@ -91,7 +92,7 @@ public class MainFrame extends javax.swing.JFrame implements SerialPortEventList
         
         getGRNNo();        
         jDateChooser4.setDate(c.getTime());     
-        getRecentVehicleAmount();
+        getRecentVehicleAmountForWeight();
         
         Timer t = new Timer();
 t.schedule(new TimerTask() {
@@ -548,7 +549,7 @@ t.schedule(new TimerTask() {
         
     }
      
-    public void getRecentVehicleAmount(){
+    public void getRecentVehicleAmountForWeight(){
        // getAmount();
          try {
             String sql = "select Inweight, Outweight,Intime,Outtime,Driver_name "
@@ -559,20 +560,20 @@ t.schedule(new TimerTask() {
             while (rs.next()) {
                 combo_customer.setSelectedItem(rs.getString("Driver_name"));
                 
-                double inweight=Double.parseDouble(rs.getString("Inweight"));
+                
+             
+              double inweight=Double.parseDouble(rs.getString("Inweight"));
+                   
                 firstweight.setText(inweight+"");
                 double outweight=Double.parseDouble(rs.getString("Outweight"));
+                 double netweight =outweight-inweight;
                 secondweight.setText(outweight+"");
-                double netweight = outweight-inweight;
-                
-                if("Weight".equals(sale_category.getSelectedItem())){
                 txt_netweight.setText(netweight+"");
-                }else{
-                txt_netweight.setText("0");
-                }
                 
                 intime.setText(rs.getString("Intime"));
                 outtime.setText(rs.getString("Outtime"));
+                
+                
                 
                 
                 txt_total.setText(netweight*Double.parseDouble(amount.getText())/1000+"");
@@ -592,32 +593,16 @@ t.schedule(new TimerTask() {
     }
     
     public void getRecentVehicleAmountForCubes(){
-    
-         try {
-            String sql = "select Inweight, Outweight,Intime,Outtime "
-                    + "from Record where Plate_no='"+plateno1.getText()+"' ORDER BY Intime DESC LIMIT 1";
-            PreparedStatement pst = con.prepareStatement(sql);
-            ResultSet rs = pst.executeQuery();
-
-            while (rs.next()) {
+        DecimalFormat df = new DecimalFormat("#.##");	
+               double total_amount= Double.parseDouble(txt_netweight.getText())*Double.parseDouble(amount.getText());
+               
+                double net_total= total_amount-Double.parseDouble(discount.getText());
                 
-                intime.setText(rs.getString("Intime"));
-                outtime.setText(rs.getString("Outtime"));
+                double due_amount= net_total-Double.parseDouble(paid_amount.getText());
                 
-                
-                 txt_total.setText(Double.parseDouble(txt_netweight.getText())*Double.parseDouble(amount.getText())+"");
-                 txt_nettotal.setText(Double.parseDouble(txt_total.getText())-Double.parseDouble(discount.getText())+"");
-                 due.setText(Double.parseDouble(txt_nettotal.getText())
-                         -Double.parseDouble(paid_amount.getText())+"");
-              
-            }
-            
-            pst.close();
-            
-        } catch (Exception e) {
-
-             JOptionPane.showMessageDialog(null,e);
-        }
+                txt_total.setText(df.format(total_amount)+"");
+                 txt_nettotal.setText(df.format(net_total)+"");
+                 due.setText(df.format(due_amount)+"");
     }
     
     public String getNextDate(String curDate, int days) {
@@ -2711,6 +2696,7 @@ t.schedule(new TimerTask() {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         clear();
+        getPrice();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -2759,14 +2745,24 @@ t.schedule(new TimerTask() {
     }//GEN-LAST:event_plateno1KeyPressed
 
     private void plateno1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_plateno1KeyReleased
+       
         getPrice();
-        getRecentVehicleAmount();
-        
+      if("Weight".equals(sale_category.getSelectedItem())){
+              getRecentVehicleAmountForWeight();
+            }else{
+            
+              getRecentVehicleAmountForCubes();
+            }
     }//GEN-LAST:event_plateno1KeyReleased
 
     private void combo_customerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combo_customerActionPerformed
         getPrice();
-        getRecentVehicleAmount();
+       if("Weight".equals(sale_category.getSelectedItem())){
+              getRecentVehicleAmountForWeight();
+            }else{
+            
+              getRecentVehicleAmountForCubes();
+            }
     }//GEN-LAST:event_combo_customerActionPerformed
 
     private void paid_amountFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_paid_amountFocusGained
@@ -2782,13 +2778,23 @@ t.schedule(new TimerTask() {
     }//GEN-LAST:event_paid_amountKeyPressed
 
     private void paid_amountKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_paid_amountKeyReleased
-        due.setText(txt_nettotal.getText());
+       
         if ("".equals(paid_amount.getText())) {
             paid_amount.setText("0");
             paid_amount.selectAll();
-
+            if("Weight".equals(sale_category.getSelectedItem())){
+              getRecentVehicleAmountForWeight();
+            }else{
+            
+              getRecentVehicleAmountForCubes();
+            }
         }else if(!"0".equals(paid_amount.getText())) {
-            due.setText(Double.parseDouble(txt_nettotal.getText())-Double.parseDouble(paid_amount.getText())+"");
+           if("Weight".equals(sale_category.getSelectedItem())){
+              getRecentVehicleAmountForWeight();
+            }else{
+            
+              getRecentVehicleAmountForCubes();
+            }
         }
     }//GEN-LAST:event_paid_amountKeyReleased
 
@@ -3055,10 +3061,25 @@ t.schedule(new TimerTask() {
     }//GEN-LAST:event_formWindowOpened
 
     private void sale_categoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sale_categoryActionPerformed
-           getPrice();
+          
+        firstweight.setText("0");
+        intime.setText("");
+        secondweight.setText("0");
+        outtime.setText("0");
+        amount.setText("0");
+        txt_netweight.setText("0");
+        txt_total.setText("0");
+        
+        due.setText("0");
+        txt_nettotal.setText("0");
+        
+        
+        
+        
+        getPrice();
         if ("Weight".equals(sale_category.getSelectedItem())) {
             txt_netweight.setEnabled(false);
-            getRecentVehicleAmount();
+            getRecentVehicleAmountForWeight();
         } else {
             txt_netweight.setEnabled(true);
             txt_netweight.setText("0");
@@ -3079,15 +3100,20 @@ t.schedule(new TimerTask() {
     }//GEN-LAST:event_txt_netweightKeyPressed
 
     private void txt_netweightKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_netweightKeyReleased
-
+            
         if ("".equals(txt_netweight.getText())) {
             txt_netweight.setText("0");
             txt_netweight.selectAll();
-        }else if(!"0".equals(txt_netweight.getText())) {
-            getPrice();
-            getRecentVehicleAmountForCubes();
         }
-        
+            amount.setText("0");
+            txt_total.setText("0");
+            due.setText("0");
+            txt_nettotal.setText("0");
+            
+            getPrice();
+              getRecentVehicleAmountForCubes();
+             
+      
        
     }//GEN-LAST:event_txt_netweightKeyReleased
 
@@ -3110,16 +3136,25 @@ t.schedule(new TimerTask() {
     }//GEN-LAST:event_discountKeyPressed
 
     private void discountKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_discountKeyReleased
-       due.setText(txt_total.getText());
+      
         if ("".equals(discount.getText())) {
             discount.setText("0");
             discount.selectAll();
-            txt_nettotal.setText(Double.parseDouble(txt_total.getText())+"");
-            due.setText(Double.parseDouble(txt_nettotal.getText())+"");
-
+            if("Weight".equals(sale_category.getSelectedItem())){
+              getRecentVehicleAmountForWeight();
+            }else{
+            
+              getRecentVehicleAmountForCubes();
+            }
         }else if(!"0".equals(discount.getText())) {
-            txt_nettotal.setText(Double.parseDouble(txt_total.getText())-Double.parseDouble(discount.getText())+"");
-            due.setText(Double.parseDouble(txt_nettotal.getText())+"");
+            
+            if("Weight".equals(sale_category.getSelectedItem())){
+              getRecentVehicleAmountForWeight();
+            }else{
+            
+              getRecentVehicleAmountForCubes();
+            }
+            
         }
     }//GEN-LAST:event_discountKeyReleased
 
