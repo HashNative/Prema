@@ -31,7 +31,7 @@ public class DBConnect {
             //DESKTOP-K4EFD5D
             String host = addr.getHostAddress();
             Class.forName("com.mysql.jdbc.Driver");
-            Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://"+host+"/prema?zeroDateTimeBehavior=convertToNull","root","1234");
+            Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://"+host+"/prema?zeroDateTimeBehavior=convertToNull","root","123");
             return con;  
        }catch(Exception e){
             JOptionPane.showMessageDialog(null, e);
