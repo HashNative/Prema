@@ -130,9 +130,13 @@ public class SalesReports extends javax.swing.JDialog {
                 
                  if(!"user".equals(userid)){
                 v.add(rs.getString("net_weight"));
+                v.add(rs.getString("discount"));
+                v.add(rs.getString("transport"));
                 v.add(rs.getString("total"));
                 }else{
-                v.add(Double.parseDouble(rs.getString("net_weight"))*60/100+"");   
+                v.add(Double.parseDouble(rs.getString("net_weight"))*60/100+""); 
+                v.add(Double.parseDouble(rs.getString("discount"))*60/100+"");
+                v.add(Double.parseDouble(rs.getString("transport"))*60/100+"");
                 v.add(Double.parseDouble(rs.getString("total"))*60/100+"");
                 }
                 v.add(rs.getString("payment_method"));
@@ -165,9 +169,13 @@ public class SalesReports extends javax.swing.JDialog {
                 
                  if(!"user".equals(userid)){
                 v.add(rs.getString("net_weight"));
+                v.add(rs.getString("discount"));
+                v.add(rs.getString("transport"));
                 v.add(rs.getString("total"));
                 }else{
-                v.add(Double.parseDouble(rs.getString("net_weight"))*60/100+"");   
+                v.add(Double.parseDouble(rs.getString("net_weight"))*60/100+""); 
+                v.add(Double.parseDouble(rs.getString("discount"))*60/100+"");
+                v.add(Double.parseDouble(rs.getString("transport"))*60/100+"");
                 v.add(Double.parseDouble(rs.getString("total"))*60/100+"");
                 }
                 v.add(rs.getString("payment_method"));
@@ -270,11 +278,11 @@ public class SalesReports extends javax.swing.JDialog {
 
             },
             new String [] {
-                "GRN No", "Date", "User", "Customer", "Plate No", "Net weight", "Total", "Payment Method"
+                "GRN No", "Date", "User", "Customer", "Plate No", "Net weight", "Discount", "Transport", "Total", "Payment Method"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -319,7 +327,7 @@ public class SalesReports extends javax.swing.JDialog {
                         .addComponent(jDateChooser3, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButton3)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(0, 56, Short.MAX_VALUE))
                     .addComponent(jScrollPane5))
                 .addContainerGap())
         );
