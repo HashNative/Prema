@@ -102,7 +102,11 @@ public class FinalReport extends javax.swing.JDialog {
                 Vector v = new Vector();
                 v.add(rs.getString("ino"));
                 v.add(rs.getString("Product"));
-                v.add(rs.getString("net_weight"));
+                 if("0".equals(rs.getString("first_weight")) ||"0".equals(rs.getString("first_weight"))){
+                v.add(rs.getString("net_weight")+" Cubes");
+                }else{
+                v.add(rs.getString("net_weight")+" Kg");
+                }
                 if(!"user".equals(userid)){
                 v.add(rs.getString("paid"));
                 }else{
@@ -132,7 +136,11 @@ public class FinalReport extends javax.swing.JDialog {
                 Vector v = new Vector();
                 v.add(rs.getString("ino"));
                 v.add(rs.getString("Product"));
-                v.add(rs.getString("net_weight"));
+                 if("0".equals(rs.getString("first_weight")) ||"0".equals(rs.getString("first_weight"))){
+                v.add(rs.getString("net_weight")+" Cubes");
+                }else{
+                v.add(rs.getString("net_weight")+" Kg");
+                }
                 if(!"user".equals(userid)){
                 v.add(rs.getString("paid"));
                 }else{
@@ -162,7 +170,11 @@ public class FinalReport extends javax.swing.JDialog {
                 Vector v = new Vector();
                 v.add(rs.getString("ino"));
                 v.add(rs.getString("Product"));
-                v.add(rs.getString("net_weight"));
+                v if("0".equals(rs.getString("first_weight")) ||"0".equals(rs.getString("first_weight"))){
+                v.add(rs.getString("net_weight")+" Cubes");
+                }else{
+                v.add(rs.getString("net_weight")+" Kg");
+                }
                 if(!"user".equals(userid)){
                 v.add(rs.getString("paid"));
                 }else{
@@ -193,7 +205,11 @@ public class FinalReport extends javax.swing.JDialog {
                 Vector v = new Vector();
                 v.add(rs.getString("ino"));
                 v.add(rs.getString("Product"));
-                v.add(rs.getString("net_weight"));
+                 if("0".equals(rs.getString("first_weight")) ||"0".equals(rs.getString("first_weight"))){
+                v.add(rs.getString("net_weight")+" Cubes");
+                }else{
+                v.add(rs.getString("net_weight")+" Kg");
+                }
                 if(!"user".equals(userid)){
                 v.add(rs.getString("paid"));
                 }else{
@@ -257,7 +273,11 @@ public class FinalReport extends javax.swing.JDialog {
                 Vector v = new Vector();
                 v.add(rs.getString("grnno"));
                 v.add(rs.getString("Product"));
-                v.add(rs.getString("net_weight"));
+                v if("0".equals(rs.getString("first_weight")) ||"0".equals(rs.getString("first_weight"))){
+                v.add(rs.getString("net_weight")+" Cubes");
+                }else{
+                v.add(rs.getString("net_weight")+" Kg");
+                }
                 v.add(rs.getString("paid"));
                 v.add(rs.getString("payment_method"));
                
@@ -282,7 +302,11 @@ public class FinalReport extends javax.swing.JDialog {
                 Vector v = new Vector();
                 v.add(rs.getString("grnno"));
                 v.add(rs.getString("Product"));
-                 v.add(rs.getString("net_weight"));
+                  if("0".equals(rs.getString("first_weight")) ||"0".equals(rs.getString("first_weight"))){
+                v.add(rs.getString("net_weight")+" Cubes");
+                }else{
+                v.add(rs.getString("net_weight")+" Kg");
+                }
                 v.add(rs.getString("paid"));
                 v.add(rs.getString("payment_method"));
                
@@ -308,7 +332,11 @@ public class FinalReport extends javax.swing.JDialog {
                 Vector v = new Vector();
                 v.add(rs.getString("grnno"));
                 v.add(rs.getString("Product"));
-                  v.add(rs.getString("net_weight"));
+                  if("0".equals(rs.getString("first_weight")) ||"0".equals(rs.getString("first_weight"))){
+                v.add(rs.getString("net_weight")+" Cubes");
+                }else{
+                v.add(rs.getString("net_weight")+" Kg");
+                }
                 v.add(rs.getString("paid"));
                 v.add(rs.getString("payment_method"));
                
@@ -335,7 +363,11 @@ public class FinalReport extends javax.swing.JDialog {
                 Vector v = new Vector();
                 v.add(rs.getString("grnno"));
                 v.add(rs.getString("Product"));
-                 v.add(rs.getString("net_weight"));
+                if("0".equals(rs.getString("first_weight")) ||"0".equals(rs.getString("first_weight"))){
+                v.add(rs.getString("net_weight")+" Cubes");
+                }else{
+                v.add(rs.getString("net_weight")+" Kg");
+                }
                 v.add(rs.getString("paid"));
                 v.add(rs.getString("payment_method"));
                
