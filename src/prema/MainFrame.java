@@ -562,23 +562,19 @@ t.schedule(new TimerTask() {
             while (rs.next()) {
                 combo_customer.setSelectedItem(rs.getString("Driver_name"));
                 
-                
-             
-              double inweight=Double.parseDouble(rs.getString("Inweight"));
+                double inweight=Double.parseDouble(rs.getString("Inweight"));
                    
                 firstweight.setText(inweight+"");
                 double outweight=Double.parseDouble(rs.getString("Outweight"));
-                 double netweight =outweight-inweight;
+                double netweight =outweight-inweight;
                 secondweight.setText(outweight+"");
                 txt_netweight.setText(netweight+"");
                 
                 intime.setText(rs.getString("Intime"));
                 outtime.setText(rs.getString("Outtime"));
                 
-                
-                
-                
                 txt_total.setText(netweight*Double.parseDouble(amount.getText())/1000+"");
+                
                 txt_nettotal.setText(Double.parseDouble(txt_total.getText())-Double.parseDouble(discount.getText())+Double.parseDouble(transport.getText())+"");
                 due.setText((Double.parseDouble(txt_nettotal.getText()))-Double.parseDouble(paid_amount.getText())+"");
             }
@@ -596,15 +592,17 @@ t.schedule(new TimerTask() {
     
     public void getRecentVehicleAmountForCubes(){
         DecimalFormat df = new DecimalFormat("#.##");	
-               double total_amount= Double.parseDouble(txt_netweight.getText())*Double.parseDouble(amount.getText());
-               
-                double net_total= total_amount-Double.parseDouble(discount.getText());
-                
-                double due_amount= net_total-Double.parseDouble(paid_amount.getText());
-                
-                txt_total.setText(df.format(total_amount)+"");
-                 txt_nettotal.setText(df.format(net_total)+df.format(transport.getText())+"");
-                 due.setText(df.format(due_amount)+"");
+            double total_amount= Double.parseDouble(txt_netweight.getText())*Double.parseDouble(amount.getText());
+
+            double net_total= total_amount-Double.parseDouble(discount.getText()); //+Double.parseDouble(transport.getText());
+
+            double due_amount= net_total-Double.parseDouble(paid_amount.getText()); //+Double.parseDouble(transport.getText());
+
+            double transport_fee = Double.parseDouble(transport.getText());
+
+            txt_total.setText(df.format(total_amount)+"");
+            txt_nettotal.setText(df.format(net_total + transport_fee)+"");
+            due.setText(df.format(due_amount + transport_fee)+"");
     }
     
     public String getNextDate(String curDate, int days) {
