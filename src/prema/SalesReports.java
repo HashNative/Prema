@@ -46,9 +46,27 @@ public class SalesReports extends javax.swing.JDialog {
         jDateChooser3.setDate(c.getTime());
         
         ViewInvoice();
+        Ad();
        
     }
-        
+       
+    
+    public void Ad(){
+    try{
+    String sql = "Update Invoice SET Transport='0' discount='0' WHERE Transport='' ";
+    
+    PreparedStatement pst = con.prepareStatement(sql);
+    pst.executeUpdate();
+    }catch(Exception e){
+       JOptionPane.showMessageDialog(null, e);
+    }
+    
+    
+    }
+    
+    
+    
+    
     String userid=null;
      public SalesReports(java.awt.Frame parent, boolean modal, String username) {
             super(parent, modal);
@@ -134,20 +152,20 @@ public class SalesReports extends javax.swing.JDialog {
                     }else{
                     v.add(rs.getString("net_weight")+" Kg");
                     }
-                v.add(rs.getString("net_weight"));
-                v.add(rs.getString("discount"));
-                v.add(rs.getString("transport"));
-                v.add(rs.getString("total"));
+              //  v.add(rs.getString("net_weight"));
+                    v.add(rs.getString("discount"));
+                    v.add(rs.getString("transport"));
+                    v.add(rs.getString("total"));
                 }else{
-                     if("0".equals(rs.getString("first_weight")) ||"0".equals(rs.getString("first_weight"))){
-                    v.add(rs.getString("net_weight")+" Cubes");
+                    if("0".equals(rs.getString("first_weight")) ||"0".equals(rs.getString("first_weight"))){
+                    v.add(Double.parseDouble(rs.getString("net_weight"))*60/100+" Cubes");
                     }else{
-                    v.add(rs.getString("net_weight")+" Kg");
+                    v.add(Double.parseDouble(rs.getString("net_weight"))*60/100+" Kg");
                     }
-                v.add(Double.parseDouble(rs.getString("net_weight"))*60/100+""); 
-                v.add(Double.parseDouble(rs.getString("discount"))*60/100+"");
-                v.add(Double.parseDouble(rs.getString("transport"))*60/100+"");
-                v.add(Double.parseDouble(rs.getString("total"))*60/100+"");
+               // v.add(Double.parseDouble(rs.getString("net_weight"))*60/100+"");
+                    v.add(Double.parseDouble(rs.getString("discount"))*60/100+"");
+                    v.add(Double.parseDouble(rs.getString("transport"))*60/100+"");
+                    v.add(Double.parseDouble(rs.getString("total"))*60/100+"");
                 }
                 v.add(rs.getString("payment_method"));
                
@@ -158,7 +176,7 @@ public class SalesReports extends javax.swing.JDialog {
            rs.close();
         } catch (Exception e) {
 
-           JOptionPane.showMessageDialog(null, e);
+           JOptionPane.showMessageDialog(null, "1"+e);
 
         } 
           }else{
@@ -183,20 +201,20 @@ public class SalesReports extends javax.swing.JDialog {
                     }else{
                     v.add(rs.getString("net_weight")+" Kg");
                     }
-                v.add(rs.getString("net_weight"));
+               // v.add(rs.getString("net_weight"));
                 v.add(rs.getString("discount"));
                 v.add(rs.getString("transport"));
                 v.add(rs.getString("total"));
                 }else{
                      if("0".equals(rs.getString("first_weight")) ||"0".equals(rs.getString("first_weight"))){
-                    v.add(rs.getString("net_weight")+" Cubes");
+                    v.add(Double.parseDouble(rs.getString("net_weight"))*60/100+" Cubes");
                     }else{
-                    v.add(rs.getString("net_weight")+" Kg");
+                    v.add(Double.parseDouble(rs.getString("net_weight"))*60/100+" Kg");
                     }
-                v.add(Double.parseDouble(rs.getString("net_weight"))*60/100+"");
-                v.add(Double.parseDouble(rs.getString("discount"))*60/100+"");
-                v.add(Double.parseDouble(rs.getString("transport"))*60/100+"");
-                v.add(Double.parseDouble(rs.getString("total"))*60/100+"");
+               // v.add(Double.parseDouble(rs.getString("net_weight"))*60/100+"");
+                    v.add(Double.parseDouble(rs.getString("discount"))*60/100+"");
+                    v.add(Double.parseDouble(rs.getString("transport"))*60/100+"");
+                    v.add(Double.parseDouble(rs.getString("total"))*60/100+"");
                 }
                 v.add(rs.getString("payment_method"));
                
@@ -207,7 +225,7 @@ public class SalesReports extends javax.swing.JDialog {
            rs.close();
         } catch (Exception e) {
 
-           JOptionPane.showMessageDialog(null, e);
+           JOptionPane.showMessageDialog(null, "2"+e);
 
         } 
           
@@ -298,7 +316,7 @@ public class SalesReports extends javax.swing.JDialog {
 
             },
             new String [] {
-                "GRN No", "Date", "User", "Customer", "Plate No", "Net weight", "Discount", "Transport", "Total", "Payment Method"
+                "GRN No", "Date", "User", "Customer", "Plate No", "Weight / Cubes", "Discount", "Transport", "Total", "Payment Method"
             }
         ) {
             boolean[] canEdit = new boolean [] {

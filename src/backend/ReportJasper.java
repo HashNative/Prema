@@ -25,7 +25,7 @@ public class ReportJasper {
         try {
             JasperReport jasperReport = JasperCompileManager.compileReport(filename);
            
-         InetAddress addr = InetAddress.getByName("localhost");
+         InetAddress addr = InetAddress.getByName("DESKTOP-K4EFD5D");
 String host = addr.getHostAddress();
          Class.forName("com.mysql.jdbc.Driver");
          Connection connection = DriverManager.getConnection("jdbc:mysql://"+host+"/Prema","root","123");

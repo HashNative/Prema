@@ -111,7 +111,7 @@ public class FinalReport extends javax.swing.JDialog {
                 v.add(rs.getString("paid"));
                 }else{
                    
-                 v.add(Double.parseDouble(rs.getString("total_amount"))*60/100+""); 
+                 v.add(Double.parseDouble(rs.getString("total"))*60/100+""); 
                 }
                 v.add(rs.getString("payment_method"));
                
@@ -145,7 +145,7 @@ public class FinalReport extends javax.swing.JDialog {
                 v.add(rs.getString("paid"));
                 }else{
                    
-                 v.add(Double.parseDouble(rs.getString("total_amount"))*60/100+""); 
+                 v.add(Double.parseDouble(rs.getString("total"))*60/100+""); 
                 }
                 v.add(rs.getString("payment_method"));
                
@@ -179,7 +179,7 @@ public class FinalReport extends javax.swing.JDialog {
                 v.add(rs.getString("paid"));
                 }else{
                    
-                 v.add(Double.parseDouble(rs.getString("total_amount"))*60/100+""); 
+                 v.add(Double.parseDouble(rs.getString("total"))*60/100+""); 
                 }
                 v.add(rs.getString("payment_method"));
                
@@ -214,7 +214,7 @@ public class FinalReport extends javax.swing.JDialog {
                 v.add(rs.getString("paid"));
                 }else{
                    
-                 v.add(Double.parseDouble(rs.getString("total_amount"))*60/100+""); 
+                 v.add(Double.parseDouble(rs.getString("total"))*60/100+""); 
                 }
                 v.add(rs.getString("payment_method"));
                
@@ -550,7 +550,7 @@ public class FinalReport extends javax.swing.JDialog {
 
             },
             new String [] {
-                "Invoice No", "Product", "Weight (Kg)", "Paid Amount", "Payment Method"
+                "Invoice No", "Product", "Weight / Cubes", "Paid Amount", "Payment Method"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -591,7 +591,7 @@ public class FinalReport extends javax.swing.JDialog {
 
             },
             new String [] {
-                "GRN No", "Product", "Weight (Kg)", "Paid Amount", "Payment Method"
+                "GRN No", "Product", "Weight / Cubes", "Paid Amount", "Payment Method"
             }
         ) {
             boolean[] canEdit = new boolean [] {
