@@ -129,11 +129,21 @@ public class SalesReports extends javax.swing.JDialog {
                 v.add(rs.getString("Plate_no"));
                 
                  if(!"user".equals(userid)){
+                     if("0".equals(rs.getString("first_weight")) ||"0".equals(rs.getString("first_weight"))){
+                    v.add(rs.getString("net_weight")+" Cubes");
+                    }else{
+                    v.add(rs.getString("net_weight")+" Kg");
+                    }
                 v.add(rs.getString("net_weight"));
                 v.add(rs.getString("discount"));
                 v.add(rs.getString("transport"));
                 v.add(rs.getString("total"));
                 }else{
+                     if("0".equals(rs.getString("first_weight")) ||"0".equals(rs.getString("first_weight"))){
+                    v.add(rs.getString("net_weight")+" Cubes");
+                    }else{
+                    v.add(rs.getString("net_weight")+" Kg");
+                    }
                 v.add(Double.parseDouble(rs.getString("net_weight"))*60/100+""); 
                 v.add(Double.parseDouble(rs.getString("discount"))*60/100+"");
                 v.add(Double.parseDouble(rs.getString("transport"))*60/100+"");
@@ -168,12 +178,22 @@ public class SalesReports extends javax.swing.JDialog {
                 v.add(rs.getString("Plate_no"));
                 
                  if(!"user".equals(userid)){
+                     if("0".equals(rs.getString("first_weight")) ||"0".equals(rs.getString("first_weight"))){
+                    v.add(rs.getString("net_weight")+" Cubes");
+                    }else{
+                    v.add(rs.getString("net_weight")+" Kg");
+                    }
                 v.add(rs.getString("net_weight"));
                 v.add(rs.getString("discount"));
                 v.add(rs.getString("transport"));
                 v.add(rs.getString("total"));
                 }else{
-                v.add(Double.parseDouble(rs.getString("net_weight"))*60/100+""); 
+                     if("0".equals(rs.getString("first_weight")) ||"0".equals(rs.getString("first_weight"))){
+                    v.add(rs.getString("net_weight")+" Cubes");
+                    }else{
+                    v.add(rs.getString("net_weight")+" Kg");
+                    }
+                v.add(Double.parseDouble(rs.getString("net_weight"))*60/100+"");
                 v.add(Double.parseDouble(rs.getString("discount"))*60/100+"");
                 v.add(Double.parseDouble(rs.getString("transport"))*60/100+"");
                 v.add(Double.parseDouble(rs.getString("total"))*60/100+"");
