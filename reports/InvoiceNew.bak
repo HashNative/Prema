@@ -111,17 +111,19 @@ No:765/32A,
 Habanhenawatta, Walgama, Athurugiriya
 ]]></text>
 				</staticText>
-				<image  evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<staticText>
 					<reportElement
-						x="65"
-						y="3"
-						width="80"
-						height="54"
-						key="image-1"/>
+						x="43"
+						y="16"
+						width="124"
+						height="34"
+						key="staticText-58"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<graphicElement stretchType="NoStretch"/>
-					<imageExpression class="java.lang.String"><![CDATA[$P{image_url}]]></imageExpression>
-				</image>
+					<textElement textAlignment="Center">
+						<font pdfFontName="Helvetica-Bold" size="18" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Prema]]></text>
+				</staticText>
 			</band>
 		</title>
 		<pageHeader>
@@ -141,7 +143,7 @@ Habanhenawatta, Walgama, Athurugiriya
 				</staticText>
 				<staticText>
 					<reportElement
-						x="16"
+						x="19"
 						y="15"
 						width="46"
 						height="9"
@@ -154,7 +156,7 @@ Habanhenawatta, Walgama, Athurugiriya
 				</staticText>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="132"
+						x="135"
 						y="16"
 						width="55"
 						height="9"
@@ -167,7 +169,7 @@ Habanhenawatta, Walgama, Athurugiriya
 				</textField>
 				<staticText>
 					<reportElement
-						x="108"
+						x="111"
 						y="16"
 						width="24"
 						height="8"
@@ -193,7 +195,7 @@ Habanhenawatta, Walgama, Athurugiriya
 				</staticText>
 				<staticText>
 					<reportElement
-						x="16"
+						x="19"
 						y="25"
 						width="46"
 						height="9"
@@ -206,7 +208,7 @@ Habanhenawatta, Walgama, Athurugiriya
 				</staticText>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="60"
+						x="63"
 						y="25"
 						width="132"
 						height="9"
@@ -219,7 +221,7 @@ Habanhenawatta, Walgama, Athurugiriya
 				</textField>
 				<staticText>
 					<reportElement
-						x="16"
+						x="19"
 						y="37"
 						width="46"
 						height="9"
@@ -232,7 +234,7 @@ Habanhenawatta, Walgama, Athurugiriya
 				</staticText>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="60"
+						x="63"
 						y="15"
 						width="50"
 						height="10"
@@ -245,7 +247,7 @@ Habanhenawatta, Walgama, Athurugiriya
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="60"
+						x="63"
 						y="37"
 						width="131"
 						height="9"

@@ -111,17 +111,19 @@ No:765/32A,
 Habanhenawatta, Walgama, Athurugiriya
 ]]></text>
 				</staticText>
-				<image  evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<staticText>
 					<reportElement
-						x="65"
-						y="3"
-						width="80"
-						height="54"
-						key="image-1"/>
+						x="43"
+						y="16"
+						width="124"
+						height="34"
+						key="staticText-58"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<graphicElement stretchType="NoStretch"/>
-					<imageExpression class="java.lang.String"><![CDATA[$P{image_url}]]></imageExpression>
-				</image>
+					<textElement textAlignment="Center">
+						<font pdfFontName="Helvetica-Bold" size="24" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Prema]]></text>
+				</staticText>
 			</band>
 		</title>
 		<pageHeader>
