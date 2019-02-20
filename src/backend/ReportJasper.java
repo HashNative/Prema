@@ -22,13 +22,15 @@ import net.sf.jasperreports.view.JasperViewer;
 public class ReportJasper {
 
     public static void printInvoice(String filename, HashMap<String, Object> params) {
+        
+        Read r = new Read();
         try {
             JasperReport jasperReport = JasperCompileManager.compileReport(filename);
            
-         InetAddress addr = InetAddress.getByName("localhost");
+         InetAddress addr = InetAddress.getByName(r.getProperty("host"));
 String host = addr.getHostAddress();
          Class.forName("com.mysql.jdbc.Driver");
-         Connection connection = DriverManager.getConnection("jdbc:mysql://"+host+"/Prema","root","123");
+         Connection connection = DriverManager.getConnection("jdbc:mysql://"+host+"/Prema",r.getProperty("username"),r.getProperty("password"));
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, connection);
             //JasperViewer.viewReport(jasperPrint, false);
            JasperPrintManager.printReport(jasperPrint, false);

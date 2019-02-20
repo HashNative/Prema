@@ -5,6 +5,7 @@
  */
 package prema;
 
+import backend.Read;
 import backend.ReportJasper;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
@@ -422,10 +423,13 @@ t.schedule(new TimerTask() {
                     pst.close();
 
                     updateCustomerAmount();
+                    
+                    Read r = new Read();
                   try {
+                      
                             HashMap<String, Object> params = new HashMap<String, Object>();
                             params.put("ID", ino.getText() + "");
-                            params.put("image_url", System.getenv("APPDATA") + "\\Prema\\Logo.PNG");
+                            params.put("image_url",(r.getProperty("path")) + "\\Prema\\Logo.PNG");
                             String category = "Kg";
                             if("Weight".equals(sale_category.getSelectedItem())){
                                 
@@ -433,7 +437,7 @@ t.schedule(new TimerTask() {
                               category="Cube";
                             }
                             params.put("sales_category", category);
-                            ReportJasper.printInvoice(System.getenv("APPDATA") + "\\Prema\\InvoiceNew.jrxml", params);
+                            ReportJasper.printInvoice((r.getProperty("path")) + "\\Prema\\InvoiceNew.jrxml", params);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -703,11 +707,13 @@ t.schedule(new TimerTask() {
                     pst.close();
 
                     updateSupplierAmount();
+                    
+                    Read r = new Read();
                   try {
                             HashMap<String, Object> params = new HashMap<String, Object>();
                             params.put("ID", grnno.getText() + "");
-                            params.put("image_url", System.getenv("APPDATA") + "\\Prema\\Logo.PNG");
-                            ReportJasper.printInvoice(System.getenv("APPDATA") + "\\Prema\\GRNote.jrxml", params);
+                            params.put("image_url",r.getProperty("path") + "\\Prema\\Logo.PNG");
+                            ReportJasper.printInvoice((r.getProperty("path")) + "\\Prema\\GRNote.jrxml", params);
                         } catch (Exception e) {
                            JOptionPane.showMessageDialog(null, e);
                         }
