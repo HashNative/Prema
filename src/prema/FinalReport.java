@@ -5,7 +5,11 @@
  */
 package prema;
 
+import backend.Read;
+import java.awt.Desktop;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,6 +18,19 @@ import java.util.Calendar;
 import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import static javax.swing.text.StyleConstants.Alignment;
+import jxl.Workbook;
+import jxl.format.Alignment;
+import jxl.format.Border;
+import jxl.format.BorderLineStyle;
+import jxl.format.Colour;
+import jxl.format.UnderlineStyle;
+import jxl.write.Label;
+import jxl.write.WritableCellFormat;
+import jxl.write.WritableFont;
+import jxl.write.WritableSheet;
+import jxl.write.WritableWorkbook;
+import jxl.write.WriteException;
 
 /**
  *
@@ -24,53 +41,53 @@ public class FinalReport extends javax.swing.JDialog {
     /**
      * Creates new form Suppliers
      */
-     Connection con = null;
+    Connection con = null;
     ResultSet rs = null;
     PreparedStatement pst = null;
+
     public FinalReport(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         Calendar c = Calendar.getInstance();
-        con=backend.DBConnect.ConnectDb();
-          jDateChooser1.setDate(c.getTime());
+      con = backend.DBConnect.ConnectDb();
+        jDateChooser1.setDate(c.getTime());
         jDateChooser2.setDate(c.getTime());
-        
+
         ViewSales();
         ViewPurchases();
         FillcomboCustomer();
         FillcomboSupplier();
     }
-    
-    String userid=null;
-    FinalReport(java.awt.Frame parent, boolean modal,String username){
+
+    String userid = null;
+
+    FinalReport(java.awt.Frame parent, boolean modal, String username) {
         super(parent, modal);
         userid = username;
-     initComponents();
+        initComponents();
         Calendar c = Calendar.getInstance();
-        
+
         con = backend.DBConnect.ConnectDb();
 
         jDateChooser1.setDate(c.getTime());
         jDateChooser2.setDate(c.getTime());
-        
+
         ViewSales();
         ViewPurchases();
         FillcomboCustomer();
         FillcomboSupplier();
-    
+
     }
 
-    
-     
-    public void ViewSales(){
-        
-         String Date1=null;
-        String Date2=null;
+    public void ViewSales() {
+
+        String Date1 = null;
+        String Date2 = null;
         try {
             java.util.Date d = jDateChooser1.getDate();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             Date1 = sdf.format(d);
-            
+
             java.util.Date d2 = jDateChooser2.getDate();
             SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
             Date2 = sdf2.format(d2);
@@ -78,335 +95,331 @@ public class FinalReport extends javax.swing.JDialog {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
-        String paymentmethod="All";
-        if(!"All".equals(combo_customer_type.getSelectedItem())){
-            if("Credit".equals(combo_customer_type.getSelectedItem())){
-                paymentmethod="='Credit'";
-            }else{
-                paymentmethod="<> 'Credit'";
+
+        String paymentmethod = "All";
+        if (!"All".equals(combo_customer_type.getSelectedItem())) {
+            if ("Credit".equals(combo_customer_type.getSelectedItem())) {
+                paymentmethod = "='Credit'";
+            } else {
+                paymentmethod = "<> 'Credit'";
             }
         }
-        
-         DefaultTableModel dtm = (DefaultTableModel) sales_table.getModel();
-                        dtm.setRowCount(0);
-        
-        if("All".equals(combo_customer.getSelectedItem()) && "All".equals(combo_customer_type.getSelectedItem())){
-             try {
-            String sql = "Select * "
-                    + "from Invoice where Date  BETWEEN '" + Date1 + "%" + "' AND '" + Date2 + "%" + "' ";
-           PreparedStatement pst = con.prepareStatement(sql);
-           ResultSet rs = pst.executeQuery();
-            
-            while (rs.next()) {
-                Vector v = new Vector();
-                v.add(rs.getString("ino"));
-                v.add(rs.getString("Product"));
-                 if("0".equals(rs.getString("first_weight")) ||"0".equals(rs.getString("first_weight"))){
-                v.add(rs.getString("net_weight")+" Cubes");
-                }else{
-                v.add(rs.getString("net_weight")+" Kg");
-                }
-                if(!"user".equals(userid)){
-                v.add(rs.getString("paid"));
-                }else{
-                   
-                 v.add(Double.parseDouble(rs.getString("total"))*60/100+""); 
-                }
-                v.add(rs.getString("payment_method"));
-               
-                dtm.addRow(v);
-            }
-          
-            pst.close();
-           rs.close();
-        } catch (Exception e) {
 
-           JOptionPane.showMessageDialog(null, e);
+        DefaultTableModel dtm = (DefaultTableModel) sales_table.getModel();
+        dtm.setRowCount(0);
 
-        } 
-        }else if("All".equals(combo_customer.getSelectedItem()) && !"All".equals(combo_customer_type.getSelectedItem())){
-             try {
-            String sql = "Select * "
-                    + "from Invoice where Payment_method "+paymentmethod+" and Date  BETWEEN '" + Date1 + "%" + "' AND '" + Date2 + "%" + "' ";
-           PreparedStatement pst = con.prepareStatement(sql);
-           ResultSet rs = pst.executeQuery();
-            
-            while (rs.next()) {
-                Vector v = new Vector();
-                v.add(rs.getString("ino"));
-                v.add(rs.getString("Product"));
-                 if("0".equals(rs.getString("first_weight")) ||"0".equals(rs.getString("first_weight"))){
-                v.add(rs.getString("net_weight")+" Cubes");
-                }else{
-                v.add(rs.getString("net_weight")+" Kg");
-                }
-                if(!"user".equals(userid)){
-                v.add(rs.getString("paid"));
-                }else{
-                   
-                 v.add(Double.parseDouble(rs.getString("total"))*60/100+""); 
-                }
-                v.add(rs.getString("payment_method"));
-               
-                dtm.addRow(v);
-            }
-          
-            pst.close();
-           rs.close();
-        } catch (Exception e) {
-
-           JOptionPane.showMessageDialog(null, e);
-
-        } 
-        }else if(!"All".equals(combo_customer.getSelectedItem()) && "All".equals(combo_customer_type.getSelectedItem())){
-             try {
-            String sql = "Select * "
-                    + "from Invoice where Customer='"+combo_customer.getSelectedItem()+"' and Date  BETWEEN '" + Date1 + "%" + "' AND '" + Date2 + "%" + "' ";
-           PreparedStatement pst = con.prepareStatement(sql);
-           ResultSet rs = pst.executeQuery();
-            
-            while (rs.next()) {
-                Vector v = new Vector();
-                v.add(rs.getString("ino"));
-                v.add(rs.getString("Product"));
-                if("0".equals(rs.getString("first_weight")) ||"0".equals(rs.getString("first_weight"))){
-                v.add(rs.getString("net_weight")+" Cubes");
-                }else{
-                v.add(rs.getString("net_weight")+" Kg");
-                }
-                if(!"user".equals(userid)){
-                v.add(rs.getString("paid"));
-                }else{
-                   
-                 v.add(Double.parseDouble(rs.getString("total"))*60/100+""); 
-                }
-                v.add(rs.getString("payment_method"));
-               
-                dtm.addRow(v);
-            }
-          
-            pst.close();
-           rs.close();
-        } catch (Exception e) {
-
-           JOptionPane.showMessageDialog(null, e);
-
-        } 
-        }else if(!"All".equals(combo_customer.getSelectedItem()) && !"All".equals(combo_customer_type.getSelectedItem())){
-             try {
-            String sql = "Select * "
-                    + "from Invoice where Customer='"+combo_customer.getSelectedItem()+"' and Payment_method "+paymentmethod+" "
-                    + "and Date  BETWEEN '" + Date1 + "%" + "' AND '" + Date2 + "%" + "' ";
-           PreparedStatement pst = con.prepareStatement(sql);
-           ResultSet rs = pst.executeQuery();
-            
-            while (rs.next()) {
-                Vector v = new Vector();
-                v.add(rs.getString("ino"));
-                v.add(rs.getString("Product"));
-                 if("0".equals(rs.getString("first_weight")) ||"0".equals(rs.getString("first_weight"))){
-                v.add(rs.getString("net_weight")+" Cubes");
-                }else{
-                v.add(rs.getString("net_weight")+" Kg");
-                }
-                if(!"user".equals(userid)){
-                v.add(rs.getString("paid"));
-                }else{
-                   
-                 v.add(Double.parseDouble(rs.getString("total"))*60/100+""); 
-                }
-                v.add(rs.getString("payment_method"));
-               
-                dtm.addRow(v);
-            }
-          
-            pst.close();
-           rs.close();
-        } catch (Exception e) {
-
-           JOptionPane.showMessageDialog(null, e);
-
-        } 
-        }
-          
-   
-    }
-    
-    public void ViewPurchases(){
-         String Date1=null;
-        String Date2=null;
-        try {
-            java.util.Date d = jDateChooser1.getDate();
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            Date1 = sdf.format(d);
-            
-            java.util.Date d2 = jDateChooser2.getDate();
-            SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
-            Date2 = sdf2.format(d2);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        
-        
-         DefaultTableModel dtm = (DefaultTableModel) purchase_table.getModel();
-                        dtm.setRowCount(0);
-                
-                         String paymentmethod="All";
-        if(!"All".equals(combo_supplier_type.getSelectedItem())){
-            if("Credit".equals(combo_supplier_type.getSelectedItem())){
-                paymentmethod="='Credit'";
-            }else{
-                paymentmethod="<> 'Credit'";
-            }
-        }
-         
-        if("All".equals(combo_supplier.getSelectedItem()) && "All".equals(combo_supplier_type.getSelectedItem())){
+        if ("All".equals(combo_customer.getSelectedItem()) && "All".equals(combo_customer_type.getSelectedItem())) {
             try {
-            String sql = "Select * "
-                    + "from GRN where Date  BETWEEN '" + Date1 + "%" + "' AND '" + Date2 + "%" + "' ";
-           PreparedStatement pst = con.prepareStatement(sql);
-           ResultSet rs = pst.executeQuery();
-            
-            while (rs.next()) {
-                Vector v = new Vector();
-                v.add(rs.getString("grnno"));
-                v.add(rs.getString("Product"));
-               if("0".equals(rs.getString("first_weight")) ||"0".equals(rs.getString("first_weight"))){
-                v.add(rs.getString("net_weight")+" Cubes");
-                }else{
-                v.add(rs.getString("net_weight")+" Kg");
+                String sql = "Select * "
+                        + "from Invoice where Date  BETWEEN '" + Date1 + "%" + "' AND '" + Date2 + "%" + "' ";
+                PreparedStatement pst = con.prepareStatement(sql);
+                ResultSet rs = pst.executeQuery();
+
+                while (rs.next()) {
+                    Vector v = new Vector();
+                    v.add(rs.getString("ino"));
+                    v.add(rs.getString("Product"));
+                    if ("0".equals(rs.getString("first_weight")) || "0".equals(rs.getString("first_weight"))) {
+                        v.add(rs.getString("net_weight") + " Cubes");
+                    } else {
+                        v.add(rs.getString("net_weight") + " Kg");
+                    }
+                    if (!"user".equals(userid)) {
+                        v.add(rs.getString("paid"));
+                    } else {
+
+                        v.add(Double.parseDouble(rs.getString("total")) * 60 / 100 + "");
+                    }
+                    v.add(rs.getString("payment_method"));
+
+                    dtm.addRow(v);
                 }
-                v.add(rs.getString("paid"));
-                v.add(rs.getString("payment_method"));
-               
-                dtm.addRow(v);
+
+                pst.close();
+                rs.close();
+            } catch (Exception e) {
+
+                JOptionPane.showMessageDialog(null, e);
+
             }
-          
-            pst.close();
-           rs.close();
-        } catch (Exception e) {
+        } else if ("All".equals(combo_customer.getSelectedItem()) && !"All".equals(combo_customer_type.getSelectedItem())) {
+            try {
+                String sql = "Select * "
+                        + "from Invoice where Payment_method " + paymentmethod + " and Date  BETWEEN '" + Date1 + "%" + "' AND '" + Date2 + "%" + "' ";
+                PreparedStatement pst = con.prepareStatement(sql);
+                ResultSet rs = pst.executeQuery();
 
-           JOptionPane.showMessageDialog(null, e);
+                while (rs.next()) {
+                    Vector v = new Vector();
+                    v.add(rs.getString("ino"));
+                    v.add(rs.getString("Product"));
+                    if ("0".equals(rs.getString("first_weight")) || "0".equals(rs.getString("first_weight"))) {
+                        v.add(rs.getString("net_weight") + " Cubes");
+                    } else {
+                        v.add(rs.getString("net_weight") + " Kg");
+                    }
+                    if (!"user".equals(userid)) {
+                        v.add(rs.getString("paid"));
+                    } else {
 
-        } 
-        }else if("All".equals(combo_supplier.getSelectedItem()) && !"All".equals(combo_supplier_type.getSelectedItem())){
-        try {
-            String sql = "Select * "
-                    + "from GRN where Payment_method "+paymentmethod+" and Date  BETWEEN '" + Date1 + "%" + "' AND '" + Date2 + "%" + "' ";
-           PreparedStatement pst = con.prepareStatement(sql);
-           ResultSet rs = pst.executeQuery();
-            
-            while (rs.next()) {
-                Vector v = new Vector();
-                v.add(rs.getString("grnno"));
-                v.add(rs.getString("Product"));
-                  if("0".equals(rs.getString("first_weight")) ||"0".equals(rs.getString("first_weight"))){
-                v.add(rs.getString("net_weight")+" Cubes");
-                }else{
-                v.add(rs.getString("net_weight")+" Kg");
+                        v.add(Double.parseDouble(rs.getString("total")) * 60 / 100 + "");
+                    }
+                    v.add(rs.getString("payment_method"));
+
+                    dtm.addRow(v);
                 }
-                v.add(rs.getString("paid"));
-                v.add(rs.getString("payment_method"));
-               
-                dtm.addRow(v);
+
+                pst.close();
+                rs.close();
+            } catch (Exception e) {
+
+                JOptionPane.showMessageDialog(null, e);
+
             }
-          
-            pst.close();
-           rs.close();
-        } catch (Exception e) {
+        } else if (!"All".equals(combo_customer.getSelectedItem()) && "All".equals(combo_customer_type.getSelectedItem())) {
+            try {
+                String sql = "Select * "
+                        + "from Invoice where Customer='" + combo_customer.getSelectedItem() + "' and Date  BETWEEN '" + Date1 + "%" + "' AND '" + Date2 + "%" + "' ";
+                PreparedStatement pst = con.prepareStatement(sql);
+                ResultSet rs = pst.executeQuery();
 
-           JOptionPane.showMessageDialog(null, e);
+                while (rs.next()) {
+                    Vector v = new Vector();
+                    v.add(rs.getString("ino"));
+                    v.add(rs.getString("Product"));
+                    if ("0".equals(rs.getString("first_weight")) || "0".equals(rs.getString("first_weight"))) {
+                        v.add(rs.getString("net_weight") + " Cubes");
+                    } else {
+                        v.add(rs.getString("net_weight") + " Kg");
+                    }
+                    if (!"user".equals(userid)) {
+                        v.add(rs.getString("paid"));
+                    } else {
 
-        } 
-        
-        }else if(!"All".equals(combo_supplier.getSelectedItem()) && "All".equals(combo_supplier_type.getSelectedItem())){
-        try {
-            String sql = "Select * "
-                    + "from GRN where Supplier='"+combo_supplier.getSelectedItem()+"' and Date  BETWEEN '" + Date1 + "%" + "' AND '" + Date2 + "%" + "' ";
-           PreparedStatement pst = con.prepareStatement(sql);
-           ResultSet rs = pst.executeQuery();
-            
-            while (rs.next()) {
-                Vector v = new Vector();
-                v.add(rs.getString("grnno"));
-                v.add(rs.getString("Product"));
-                  if("0".equals(rs.getString("first_weight")) ||"0".equals(rs.getString("first_weight"))){
-                v.add(rs.getString("net_weight")+" Cubes");
-                }else{
-                v.add(rs.getString("net_weight")+" Kg");
+                        v.add(Double.parseDouble(rs.getString("total")) * 60 / 100 + "");
+                    }
+                    v.add(rs.getString("payment_method"));
+
+                    dtm.addRow(v);
                 }
-                v.add(rs.getString("paid"));
-                v.add(rs.getString("payment_method"));
-               
-                dtm.addRow(v);
+
+                pst.close();
+                rs.close();
+            } catch (Exception e) {
+
+                JOptionPane.showMessageDialog(null, e);
+
             }
-          
-            pst.close();
-           rs.close();
-        } catch (Exception e) {
+        } else if (!"All".equals(combo_customer.getSelectedItem()) && !"All".equals(combo_customer_type.getSelectedItem())) {
+            try {
+                String sql = "Select * "
+                        + "from Invoice where Customer='" + combo_customer.getSelectedItem() + "' and Payment_method " + paymentmethod + " "
+                        + "and Date  BETWEEN '" + Date1 + "%" + "' AND '" + Date2 + "%" + "' ";
+                PreparedStatement pst = con.prepareStatement(sql);
+                ResultSet rs = pst.executeQuery();
 
-           JOptionPane.showMessageDialog(null, e);
+                while (rs.next()) {
+                    Vector v = new Vector();
+                    v.add(rs.getString("ino"));
+                    v.add(rs.getString("Product"));
+                    if ("0".equals(rs.getString("first_weight")) || "0".equals(rs.getString("first_weight"))) {
+                        v.add(rs.getString("net_weight") + " Cubes");
+                    } else {
+                        v.add(rs.getString("net_weight") + " Kg");
+                    }
+                    if (!"user".equals(userid)) {
+                        v.add(rs.getString("paid"));
+                    } else {
 
-        } 
-        
-        }else if(!"All".equals(combo_supplier.getSelectedItem()) && !"All".equals(combo_supplier_type.getSelectedItem())){
-        try {
-            String sql = "Select * "
-                    + "from GRN where Supplier='"+combo_supplier.getSelectedItem()+"' and Payment_method "+paymentmethod+" "
-                    + "and Date  BETWEEN '" + Date1 + "%" + "' AND '" + Date2 + "%" + "' ";
-           PreparedStatement pst = con.prepareStatement(sql);
-           ResultSet rs = pst.executeQuery();
-            
-            while (rs.next()) {
-                Vector v = new Vector();
-                v.add(rs.getString("grnno"));
-                v.add(rs.getString("Product"));
-                if("0".equals(rs.getString("first_weight")) ||"0".equals(rs.getString("first_weight"))){
-                v.add(rs.getString("net_weight")+" Cubes");
-                }else{
-                v.add(rs.getString("net_weight")+" Kg");
+                        v.add(Double.parseDouble(rs.getString("total")) * 60 / 100 + "");
+                    }
+                    v.add(rs.getString("payment_method"));
+
+                    dtm.addRow(v);
                 }
-                v.add(rs.getString("paid"));
-                v.add(rs.getString("payment_method"));
-               
-                dtm.addRow(v);
+
+                pst.close();
+                rs.close();
+            } catch (Exception e) {
+
+                JOptionPane.showMessageDialog(null, e);
+
             }
-          
-            pst.close();
-           rs.close();
-        } catch (Exception e) {
-
-           JOptionPane.showMessageDialog(null, e);
-
-        } 
-        
         }
-        
-        
-    
+
     }
-        
+
+    public void ViewPurchases() {
+        String Date1 = null;
+        String Date2 = null;
+        try {
+            java.util.Date d = jDateChooser1.getDate();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date1 = sdf.format(d);
+
+            java.util.Date d2 = jDateChooser2.getDate();
+            SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
+            Date2 = sdf2.format(d2);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        DefaultTableModel dtm = (DefaultTableModel) purchase_table.getModel();
+        dtm.setRowCount(0);
+
+        String paymentmethod = "All";
+        if (!"All".equals(combo_supplier_type.getSelectedItem())) {
+            if ("Credit".equals(combo_supplier_type.getSelectedItem())) {
+                paymentmethod = "='Credit'";
+            } else {
+                paymentmethod = "<> 'Credit'";
+            }
+        }
+
+        if ("All".equals(combo_supplier.getSelectedItem()) && "All".equals(combo_supplier_type.getSelectedItem())) {
+            try {
+                String sql = "Select * "
+                        + "from GRN where Date  BETWEEN '" + Date1 + "%" + "' AND '" + Date2 + "%" + "' ";
+                PreparedStatement pst = con.prepareStatement(sql);
+                ResultSet rs = pst.executeQuery();
+
+                while (rs.next()) {
+                    Vector v = new Vector();
+                    v.add(rs.getString("grnno"));
+                    v.add(rs.getString("Product"));
+                    if ("0".equals(rs.getString("first_weight")) || "0".equals(rs.getString("first_weight"))) {
+                        v.add(rs.getString("net_weight") + " Cubes");
+                    } else {
+                        v.add(rs.getString("net_weight") + " Kg");
+                    }
+                    v.add(rs.getString("paid"));
+                    v.add(rs.getString("payment_method"));
+
+                    dtm.addRow(v);
+                }
+
+                pst.close();
+                rs.close();
+            } catch (Exception e) {
+
+                JOptionPane.showMessageDialog(null, e);
+
+            }
+        } else if ("All".equals(combo_supplier.getSelectedItem()) && !"All".equals(combo_supplier_type.getSelectedItem())) {
+            try {
+                String sql = "Select * "
+                        + "from GRN where Payment_method " + paymentmethod + " and Date  BETWEEN '" + Date1 + "%" + "' AND '" + Date2 + "%" + "' ";
+                PreparedStatement pst = con.prepareStatement(sql);
+                ResultSet rs = pst.executeQuery();
+
+                while (rs.next()) {
+                    Vector v = new Vector();
+                    v.add(rs.getString("grnno"));
+                    v.add(rs.getString("Product"));
+                    if ("0".equals(rs.getString("first_weight")) || "0".equals(rs.getString("first_weight"))) {
+                        v.add(rs.getString("net_weight") + " Cubes");
+                    } else {
+                        v.add(rs.getString("net_weight") + " Kg");
+                    }
+                    v.add(rs.getString("paid"));
+                    v.add(rs.getString("payment_method"));
+
+                    dtm.addRow(v);
+                }
+
+                pst.close();
+                rs.close();
+            } catch (Exception e) {
+
+                JOptionPane.showMessageDialog(null, e);
+
+            }
+
+        } else if (!"All".equals(combo_supplier.getSelectedItem()) && "All".equals(combo_supplier_type.getSelectedItem())) {
+            try {
+                String sql = "Select * "
+                        + "from GRN where Supplier='" + combo_supplier.getSelectedItem() + "' and Date  BETWEEN '" + Date1 + "%" + "' AND '" + Date2 + "%" + "' ";
+                PreparedStatement pst = con.prepareStatement(sql);
+                ResultSet rs = pst.executeQuery();
+
+                while (rs.next()) {
+                    Vector v = new Vector();
+                    v.add(rs.getString("grnno"));
+                    v.add(rs.getString("Product"));
+                    if ("0".equals(rs.getString("first_weight")) || "0".equals(rs.getString("first_weight"))) {
+                        v.add(rs.getString("net_weight") + " Cubes");
+                    } else {
+                        v.add(rs.getString("net_weight") + " Kg");
+                    }
+                    v.add(rs.getString("paid"));
+                    v.add(rs.getString("payment_method"));
+
+                    dtm.addRow(v);
+                }
+
+                pst.close();
+                rs.close();
+            } catch (Exception e) {
+
+                JOptionPane.showMessageDialog(null, e);
+
+            }
+
+        } else if (!"All".equals(combo_supplier.getSelectedItem()) && !"All".equals(combo_supplier_type.getSelectedItem())) {
+            try {
+                String sql = "Select * "
+                        + "from GRN where Supplier='" + combo_supplier.getSelectedItem() + "' and Payment_method " + paymentmethod + " "
+                        + "and Date  BETWEEN '" + Date1 + "%" + "' AND '" + Date2 + "%" + "' ";
+                PreparedStatement pst = con.prepareStatement(sql);
+                ResultSet rs = pst.executeQuery();
+
+                while (rs.next()) {
+                    Vector v = new Vector();
+                    v.add(rs.getString("grnno"));
+                    v.add(rs.getString("Product"));
+                    if ("0".equals(rs.getString("first_weight")) || "0".equals(rs.getString("first_weight"))) {
+                        v.add(rs.getString("net_weight") + " Cubes");
+                    } else {
+                        v.add(rs.getString("net_weight") + " Kg");
+                    }
+                    v.add(rs.getString("paid"));
+                    v.add(rs.getString("payment_method"));
+
+                    dtm.addRow(v);
+                }
+
+                pst.close();
+                rs.close();
+            } catch (Exception e) {
+
+                JOptionPane.showMessageDialog(null, e);
+
+            }
+
+        }
+
+    }
+
     public void calculateTotal() {
-       
+
         double salesamount = 0;
         for (int i = 0; i < sales_table.getRowCount(); i++) {
-           
+
             salesamount = salesamount + Double.parseDouble(sales_table.getValueAt(i, 3).toString());
         }
-        
-         double purchaseamount = 0;
+
+        double purchaseamount = 0;
         for (int i = 0; i < purchase_table.getRowCount(); i++) {
-           
+
             purchaseamount = purchaseamount + Double.parseDouble(purchase_table.getValueAt(i, 3).toString());
         }
 
         sales.setText(salesamount + "");
         purchases.setText(purchaseamount + "");
-        
+
     }
-     
+
     private void FillcomboCustomer() {
 
         try {
@@ -420,16 +433,16 @@ public class FinalReport extends javax.swing.JDialog {
                 v.add(rs.getString("Name"));
             }
             combo_customer.setModel(new javax.swing.DefaultComboBoxModel(v));
-            
+
             pst.close();
             rs.close();
         } catch (Exception e) {
 
-           JOptionPane.showMessageDialog(null,e);
+            JOptionPane.showMessageDialog(null, e);
         }
-       
+
     }
-     
+
     private void FillcomboSupplier() {
 
         try {
@@ -443,17 +456,203 @@ public class FinalReport extends javax.swing.JDialog {
                 v.add(rs.getString("Name"));
             }
             combo_supplier.setModel(new javax.swing.DefaultComboBoxModel(v));
-            
+
             pst.close();
             rs.close();
         } catch (Exception e) {
 
-            JOptionPane.showMessageDialog(null,e);
+            JOptionPane.showMessageDialog(null, e);
         }
-        
-         
+
     }
-   
+
+    public void generateReport() {
+
+        String Date1 = null;
+        String Date2 = null;
+        try {
+            java.util.Date d = jDateChooser1.getDate();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date1 = sdf.format(d);
+
+            java.util.Date d2 = jDateChooser2.getDate();
+            SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
+            Date2 = sdf2.format(d2);
+
+        } catch (Exception e) {
+           e.printStackTrace(); 
+        }
+         
+        String EXCEL_FILE_LOCATION = System.getProperty("user.home") + "/Desktop/FinalReport.xls";
+
+        //1. Create an Excel file
+        WritableWorkbook myFirstWbook = null;
+        try {
+
+            myFirstWbook = Workbook.createWorkbook(new File(EXCEL_FILE_LOCATION));
+
+            // create an Excel sheet
+            WritableSheet excelSheet = myFirstWbook.createSheet("Sheet 1", 0);
+
+            // add something into the Excel sheet
+            
+            //Title style
+            WritableCellFormat cFormat = new WritableCellFormat();
+            WritableFont font = new WritableFont(WritableFont.ARIAL, 18, WritableFont.BOLD);
+            font.setUnderlineStyle(UnderlineStyle.DOUBLE);
+            cFormat.setFont(font);
+
+            Label label = new Label(6, 1, "Final Report:" + " From " + Date1 + " To " + Date2, cFormat);
+            excelSheet.addCell(label);
+            
+            //Sub title style
+            WritableCellFormat cFormat1 = new WritableCellFormat();
+            WritableFont font1 = new WritableFont(WritableFont.createFont("Times New Roman"), 16, WritableFont.BOLD);
+            font1.setUnderlineStyle(UnderlineStyle.SINGLE);
+            cFormat1.setFont(font1);         
+           
+            //Customer/Supplier details style
+            WritableCellFormat cFormat2 = new WritableCellFormat();
+            WritableFont font2 = new WritableFont(WritableFont.createFont("Times New Roman"), 13, WritableFont.BOLD);
+            cFormat2.setFont(font2);
+            
+            //cFormat2.setBorder(Border.BOTTOM, BorderLineStyle.DASHED);
+                         
+             //table header style
+            WritableCellFormat cFormat4 = new WritableCellFormat();
+            WritableFont font4 = new WritableFont(WritableFont.createFont("Times New Roman"), 13, WritableFont.BOLD);
+            cFormat4.setFont(font4);
+            
+            cFormat4.setBackground(Colour.GRAY_25);
+             
+             //table content style
+            WritableCellFormat cFormat3 = new WritableCellFormat();
+            WritableFont font3 = new WritableFont(WritableFont.createFont("Times New Roman"), 11); 
+            cFormat3.setFont(font3);
+            
+            
+            cFormat3.setBorder(Border.ALL, BorderLineStyle.THIN);
+            
+            //Sales -Header
+            label = new Label(5, 3, "Sales",cFormat1);   
+            excelSheet.addCell(label);
+
+            label = new Label(3, 4, "Customer : ",cFormat2);
+            excelSheet.addCell(label);
+
+            label = new Label(4, 4, combo_customer.getSelectedItem().toString(),cFormat2);
+            excelSheet.addCell(label);
+
+            label = new Label(6, 4, "Payement : ",cFormat2);
+            excelSheet.addCell(label);
+
+            label = new Label(7, 4, combo_customer_type.getSelectedItem().toString(),cFormat2);
+            excelSheet.addCell(label);
+
+            //Table - Header
+            for (int i = 0; i <= sales_table.getColumnCount() - 1; i++) {
+                label = new Label(3 + i, 6, sales_table.getColumnName(i),cFormat4);
+                excelSheet.addCell(label);
+            }
+
+            //Sales- Details
+            String salesfield = null;
+               
+                for (int j = 0; j < sales_table.getColumnCount(); j++) {
+                    for (int i = 0; i < sales_table.getRowCount(); i++) {
+                    salesfield = sales_table.getValueAt(i, j).toString();
+                    label = new Label(3 + j, 7 + i, salesfield, cFormat3);
+                    excelSheet.addCell(label);
+                    
+                    if(i==sales_table.getRowCount()-1){
+                       // System.out.println(i);
+                        
+                    label = new Label(5, 9 + i, "Total : ",cFormat2);
+                    excelSheet.addCell(label);
+                    
+                    label = new Label(6, 9 + i, sales.getText(),cFormat2);
+                    excelSheet.addCell(label);
+                    }
+                }
+            }
+
+            
+                
+                //Purchase -Header
+            label = new Label(11, 3, "Purchase",cFormat1);
+            excelSheet.addCell(label);
+
+            label = new Label(9, 4, "Supplier : ",cFormat2);
+            excelSheet.addCell(label);
+
+            label = new Label(10, 4, combo_supplier.getSelectedItem().toString(),cFormat2);
+            excelSheet.addCell(label);
+
+            label = new Label(12, 4, "Payement : ",cFormat2);
+            excelSheet.addCell(label);
+
+            label = new Label(13, 4, combo_supplier_type.getSelectedItem().toString(),cFormat2);
+            excelSheet.addCell(label);
+
+            //Table - Header
+            for (int i = 0; i <= purchase_table.getColumnCount() - 1; i++) {
+                label = new Label(9 + i, 6, purchase_table.getColumnName(i),cFormat4);
+                excelSheet.addCell(label);
+            }
+
+            //Purchase- Details
+            String purchasefield = null;
+               
+                for (int j = 0; j < purchase_table.getColumnCount(); j++) {
+                    for (int i = 0; i < purchase_table.getRowCount(); i++) {
+                    purchasefield = purchase_table.getValueAt(i, j).toString();
+                    label = new Label(9 + j, 7 + i, purchasefield, cFormat3);
+                    excelSheet.addCell(label);
+                    
+                    if(i==purchase_table.getRowCount()-1){
+                       
+                    label = new Label(11, 9 + i, "Total : ",cFormat2);
+                    excelSheet.addCell(label);
+                    
+                    label = new Label(12, 9 + i, purchases.getText(),cFormat2);
+                    excelSheet.addCell(label);
+                    }
+                }
+            }
+                            
+            myFirstWbook.write();
+
+             int dialogButton = JOptionPane.YES_NO_OPTION;
+        int dialogResult = JOptionPane.showConfirmDialog(null, "Do you want to open the Export file?", "Open Confirmation", dialogButton);
+        if (dialogResult == JOptionPane.YES_OPTION) {
+//            try {
+//                        Desktop dt = Desktop.getDesktop();
+//                        dt.open(new File(EXCEL_FILE_LOCATION));
+//                    } catch (Exception e ){
+//                                    JOptionPane.showMessageDialog(null, e);
+//                    } 
+       }  
+            JOptionPane.showMessageDialog(null, "Report Printed to " + EXCEL_FILE_LOCATION);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (WriteException e) {
+            e.printStackTrace();
+        } finally {
+
+            if (myFirstWbook != null) {
+                try {
+                    myFirstWbook.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (WriteException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -809,10 +1008,10 @@ public class FinalReport extends javax.swing.JDialog {
         ViewPurchases();
         calculateTotal();
     }//GEN-LAST:event_combo_supplier_typeActionPerformed
-    
-    
+
+
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        generateReport();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
