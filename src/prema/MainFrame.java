@@ -3082,7 +3082,8 @@ t.schedule(new TimerTask() {
     }//GEN-LAST:event_paid_amount1FocusGained
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        serialPort = new SerialPort("COM3");
+         Read r = new Read();
+        serialPort = new SerialPort(r.getProperty("com_port"));
         try {
             // opening port
             serialPort.openPort();
