@@ -31,6 +31,7 @@ import jxl.write.WritableFont;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 /**
  *
@@ -52,11 +53,15 @@ public class FinalReport extends javax.swing.JDialog {
       con = backend.DBConnect.ConnectDb();
         jDateChooser1.setDate(c.getTime());
         jDateChooser2.setDate(c.getTime());
-
+        AutoCompleteDecorator.decorate(combo_supplier);
+        AutoCompleteDecorator.decorate(combo_product);
+        AutoCompleteDecorator.decorate(combo_customer);
+        
         ViewSales();
         ViewPurchases();
         FillcomboCustomer();
         FillcomboSupplier();
+        FillcomboProduct();
     }
 
     String userid = null;
@@ -76,6 +81,7 @@ public class FinalReport extends javax.swing.JDialog {
         ViewPurchases();
         FillcomboCustomer();
         FillcomboSupplier();
+        FillcomboProduct();
 
     }
 
@@ -97,8 +103,8 @@ public class FinalReport extends javax.swing.JDialog {
         }
 
         String paymentmethod = "All";
-        if (!"All".equals(combo_customer_type.getSelectedItem())) {
-            if ("Credit".equals(combo_customer_type.getSelectedItem())) {
+        if (!"All".equals(combo_payment_type.getSelectedItem())) {
+            if ("Credit".equals(combo_payment_type.getSelectedItem())) {
                 paymentmethod = "='Credit'";
             } else {
                 paymentmethod = "<> 'Credit'";
@@ -108,10 +114,11 @@ public class FinalReport extends javax.swing.JDialog {
         DefaultTableModel dtm = (DefaultTableModel) sales_table.getModel();
         dtm.setRowCount(0);
 
-        if ("All".equals(combo_customer.getSelectedItem()) && "All".equals(combo_customer_type.getSelectedItem())) {
+        if ("All".equals(combo_customer.getSelectedItem()) && "All".equals(combo_payment_type.getSelectedItem()) 
+                && "All".equals(combo_product.getSelectedItem())) {
             try {
                 String sql = "Select * "
-                        + "from Invoice where Date  BETWEEN '" + Date1 + "%" + "' AND '" + Date2 + "%" + "' ";
+                        + "from Invoice where Date BETWEEN '" + Date1 + "%" + "' AND '" + Date2 + "%" + "' ";
                 PreparedStatement pst = con.prepareStatement(sql);
                 ResultSet rs = pst.executeQuery();
 
@@ -139,13 +146,14 @@ public class FinalReport extends javax.swing.JDialog {
                 rs.close();
             } catch (Exception e) {
 
-                JOptionPane.showMessageDialog(null, e);
+                JOptionPane.showMessageDialog(null, "1"+e);
 
             }
-        } else if ("All".equals(combo_customer.getSelectedItem()) && !"All".equals(combo_customer_type.getSelectedItem())) {
+        } else if ("All".equals(combo_customer.getSelectedItem()) && "All".equals(combo_payment_type.getSelectedItem()) && 
+                !"All".equals(combo_product.getSelectedItem())) {
             try {
                 String sql = "Select * "
-                        + "from Invoice where Payment_method " + paymentmethod + " and Date  BETWEEN '" + Date1 + "%" + "' AND '" + Date2 + "%" + "' ";
+                        + "from Invoice where Product='" + combo_product.getSelectedItem() + "' and Date  BETWEEN '" + Date1 + "%" + "' AND '" + Date2 + "%" + "' ";
                 PreparedStatement pst = con.prepareStatement(sql);
                 ResultSet rs = pst.executeQuery();
 
@@ -173,10 +181,11 @@ public class FinalReport extends javax.swing.JDialog {
                 rs.close();
             } catch (Exception e) {
 
-                JOptionPane.showMessageDialog(null, e);
+                JOptionPane.showMessageDialog(null, "2"+e);
 
             }
-        } else if (!"All".equals(combo_customer.getSelectedItem()) && "All".equals(combo_customer_type.getSelectedItem())) {
+        } else if ("All".equals(combo_customer.getSelectedItem()) && !"All".equals(combo_payment_type.getSelectedItem()) && 
+                "All".equals(combo_product.getSelectedItem())) {
             try {
                 String sql = "Select * "
                         + "from Invoice where Customer='" + combo_customer.getSelectedItem() + "' and Date  BETWEEN '" + Date1 + "%" + "' AND '" + Date2 + "%" + "' ";
@@ -207,10 +216,120 @@ public class FinalReport extends javax.swing.JDialog {
                 rs.close();
             } catch (Exception e) {
 
-                JOptionPane.showMessageDialog(null, e);
+                JOptionPane.showMessageDialog(null, "3"+e);
 
             }
-        } else if (!"All".equals(combo_customer.getSelectedItem()) && !"All".equals(combo_customer_type.getSelectedItem())) {
+        } else if ("All".equals(combo_customer.getSelectedItem()) && !"All".equals(combo_payment_type.getSelectedItem())&& 
+                !"All".equals(combo_product.getSelectedItem())) {
+            try {
+                String sql = "Select * "
+                        + "from Invoice where Product='" + combo_product.getSelectedItem() + "' and Payment_method " + paymentmethod + " "
+                        + "and Date  BETWEEN '" + Date1 + "%" + "' AND '" + Date2 + "%" + "' ";
+                PreparedStatement pst = con.prepareStatement(sql);
+                ResultSet rs = pst.executeQuery();
+
+                while (rs.next()) {
+                    Vector v = new Vector();
+                    v.add(rs.getString("ino"));
+                    v.add(rs.getString("Product"));
+                    if ("0".equals(rs.getString("first_weight")) || "0".equals(rs.getString("first_weight"))) {
+                        v.add(rs.getString("net_weight") + " Cubes");
+                    } else {
+                        v.add(rs.getString("net_weight") + " Kg");
+                    }
+                    if (!"user".equals(userid)) {
+                        v.add(rs.getString("paid"));
+                    } else {
+
+                        v.add(Double.parseDouble(rs.getString("total")) * 60 / 100 + "");
+                    }
+                    v.add(rs.getString("payment_method"));
+
+                    dtm.addRow(v);
+                }
+
+                pst.close();
+                rs.close();
+            } catch (Exception e) {
+
+                JOptionPane.showMessageDialog(null, "4"+e);
+
+            }
+        }
+         else if (!"All".equals(combo_customer.getSelectedItem()) && "All".equals(combo_payment_type.getSelectedItem())&& 
+                "All".equals(combo_product.getSelectedItem())) {
+            try {
+                String sql = "Select * "
+                        + "from Invoice where Customer='" + combo_customer.getSelectedItem()+"' "
+                        + "and Date  BETWEEN '" + Date1 + "%" + "' AND '" + Date2 + "%" + "' ";
+                PreparedStatement pst = con.prepareStatement(sql);
+                ResultSet rs = pst.executeQuery();
+
+                while (rs.next()) {
+                    Vector v = new Vector();
+                    v.add(rs.getString("ino"));
+                    v.add(rs.getString("Product"));
+                    if ("0".equals(rs.getString("first_weight")) || "0".equals(rs.getString("first_weight"))) {
+                        v.add(rs.getString("net_weight") + " Cubes");
+                    } else {
+                        v.add(rs.getString("net_weight") + " Kg");
+                    }
+                    if (!"user".equals(userid)) {
+                        v.add(rs.getString("paid"));
+                    } else {
+
+                        v.add(Double.parseDouble(rs.getString("total")) * 60 / 100 + "");
+                    }
+                    v.add(rs.getString("payment_method"));
+
+                    dtm.addRow(v);
+                }
+
+                pst.close();
+                rs.close();
+            } catch (Exception e) {
+
+                JOptionPane.showMessageDialog(null, "5"+e);
+
+            }
+        } else if (!"All".equals(combo_customer.getSelectedItem()) && "All".equals(combo_payment_type.getSelectedItem())&& 
+                !"All".equals(combo_product.getSelectedItem())) {
+            try {
+                String sql = "Select * "
+                        + "from Invoice where Customer='" + combo_customer.getSelectedItem() + "' and Product='" + combo_product.getSelectedItem() + "' "
+                        + "and Date  BETWEEN '" + Date1 + "%" + "' AND '" + Date2 + "%" + "' ";
+                PreparedStatement pst = con.prepareStatement(sql);
+                ResultSet rs = pst.executeQuery();
+
+                while (rs.next()) {
+                    Vector v = new Vector();
+                    v.add(rs.getString("ino"));
+                    v.add(rs.getString("Product"));
+                    if ("0".equals(rs.getString("first_weight")) || "0".equals(rs.getString("first_weight"))) {
+                        v.add(rs.getString("net_weight") + " Cubes");
+                    } else {
+                        v.add(rs.getString("net_weight") + " Kg");
+                    }
+                    if (!"user".equals(userid)) {
+                        v.add(rs.getString("paid"));
+                    } else {
+
+                        v.add(Double.parseDouble(rs.getString("total")) * 60 / 100 + "");
+                    }
+                    v.add(rs.getString("payment_method"));
+
+                    dtm.addRow(v);
+                }
+
+                pst.close();
+                rs.close();
+            } catch (Exception e) {
+
+                JOptionPane.showMessageDialog(null, "6"+e);
+
+            }
+        } else if (!"All".equals(combo_customer.getSelectedItem()) && !"All".equals(combo_payment_type.getSelectedItem())&& 
+                "All".equals(combo_product.getSelectedItem())) {
             try {
                 String sql = "Select * "
                         + "from Invoice where Customer='" + combo_customer.getSelectedItem() + "' and Payment_method " + paymentmethod + " "
@@ -242,7 +361,44 @@ public class FinalReport extends javax.swing.JDialog {
                 rs.close();
             } catch (Exception e) {
 
-                JOptionPane.showMessageDialog(null, e);
+                JOptionPane.showMessageDialog(null, "7"+e);
+
+            }
+        } else if (!"All".equals(combo_customer.getSelectedItem()) && !"All".equals(combo_payment_type.getSelectedItem())&& 
+                !"All".equals(combo_product.getSelectedItem())) {
+            try {
+                String sql = "Select * "
+                        + "from Invoice where Customer='" + combo_customer.getSelectedItem() + "' and Payment_method " + paymentmethod + " "
+                        + "and Product = '" + combo_product.getSelectedItem() + "' "
+                        + "and Date  BETWEEN '" + Date1 + "%" + "' AND '" + Date2 + "%" + "' ";
+                PreparedStatement pst = con.prepareStatement(sql);
+                ResultSet rs = pst.executeQuery();
+
+                while (rs.next()) {
+                    Vector v = new Vector();
+                    v.add(rs.getString("ino"));
+                    v.add(rs.getString("Product"));
+                    if ("0".equals(rs.getString("first_weight")) || "0".equals(rs.getString("first_weight"))) {
+                        v.add(rs.getString("net_weight") + " Cubes");
+                    } else {
+                        v.add(rs.getString("net_weight") + " Kg");
+                    }
+                    if (!"user".equals(userid)) {
+                        v.add(rs.getString("paid"));
+                    } else {
+
+                        v.add(Double.parseDouble(rs.getString("total")) * 60 / 100 + "");
+                    }
+                    v.add(rs.getString("payment_method"));
+
+                    dtm.addRow(v);
+                }
+
+                pst.close();
+                rs.close();
+            } catch (Exception e) {
+
+                JOptionPane.showMessageDialog(null, "8"+e);
 
             }
         }
@@ -546,7 +702,7 @@ public class FinalReport extends javax.swing.JDialog {
             label = new Label(6, 4, "Payement : ",cFormat2);
             excelSheet.addCell(label);
 
-            label = new Label(7, 4, combo_customer_type.getSelectedItem().toString(),cFormat2);
+            label = new Label(7, 4, combo_payment_type.getSelectedItem().toString(),cFormat2);
             excelSheet.addCell(label);
 
             //Table - Header
@@ -653,6 +809,28 @@ public class FinalReport extends javax.swing.JDialog {
 
     }
 
+    
+    private void FillcomboProduct() {
+
+        try {
+            String sql = "select * from Stock";
+            PreparedStatement pst = con.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery();
+
+            Vector v = new Vector();
+            v.add("All");
+            while (rs.next()) {
+                v.add(rs.getString("Product"));
+            }
+            combo_product.setModel(new javax.swing.DefaultComboBoxModel(v));
+
+            pst.close();
+           
+        } catch (Exception e) {
+
+            // JOptionPane.showMessageDialog(null,e);
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -681,11 +859,13 @@ public class FinalReport extends javax.swing.JDialog {
         jScrollPane6 = new javax.swing.JScrollPane();
         purchase_table = new javax.swing.JTable();
         combo_supplier = new javax.swing.JComboBox<>();
-        combo_customer_type = new javax.swing.JComboBox<>();
+        combo_payment_type = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         combo_supplier_type = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        combo_product = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Final Report");
@@ -822,11 +1002,11 @@ public class FinalReport extends javax.swing.JDialog {
             }
         });
 
-        combo_customer_type.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        combo_customer_type.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All", "Cash", "Credit" }));
-        combo_customer_type.addActionListener(new java.awt.event.ActionListener() {
+        combo_payment_type.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        combo_payment_type.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All", "Cash", "Credit" }));
+        combo_payment_type.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                combo_customer_typeActionPerformed(evt);
+                combo_payment_typeActionPerformed(evt);
             }
         });
 
@@ -845,6 +1025,16 @@ public class FinalReport extends javax.swing.JDialog {
         jLabel2.setText("Purchasing");
 
         jLabel5.setText("Payment :");
+
+        jLabel17.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel17.setText("Product :");
+
+        combo_product.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        combo_product.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                combo_productActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -870,22 +1060,21 @@ public class FinalReport extends javax.swing.JDialog {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 474, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel15)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(combo_customer, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(45, 45, 45)
-                            .addComponent(jLabel5)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(combo_customer_type, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 474, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel15)
+                                .addComponent(jLabel17))
+                            .addGap(18, 18, 18)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(combo_product, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(combo_customer, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(39, 39, 39)
+                                    .addComponent(jLabel5)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(combo_payment_type, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel4)
-                        .addGap(28, 28, 28)
-                        .addComponent(purchases, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(19, 19, 19))
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -903,14 +1092,20 @@ public class FinalReport extends javax.swing.JDialog {
                                 .addComponent(jLabel6)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(combo_supplier_type, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addGroup(layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 474, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap())))
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel4)
+                        .addGap(28, 28, 28)
+                        .addComponent(purchases, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(74, 74, 74))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton1)
-                .addGap(455, 455, 455))
+                .addGap(438, 438, 438))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -933,14 +1128,18 @@ public class FinalReport extends javax.swing.JDialog {
                     .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(combo_supplier, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(combo_supplier_type, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(combo_customer_type, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(combo_payment_type, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5)
                     .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 453, Short.MAX_VALUE)
-                    .addComponent(jScrollPane6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(combo_product, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 453, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 453, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(sales)
@@ -948,7 +1147,7 @@ public class FinalReport extends javax.swing.JDialog {
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -997,11 +1196,11 @@ public class FinalReport extends javax.swing.JDialog {
         calculateTotal();
     }//GEN-LAST:event_combo_supplierActionPerformed
 
-    private void combo_customer_typeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combo_customer_typeActionPerformed
+    private void combo_payment_typeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combo_payment_typeActionPerformed
         ViewSales();
         ViewPurchases();
         calculateTotal();
-    }//GEN-LAST:event_combo_customer_typeActionPerformed
+    }//GEN-LAST:event_combo_payment_typeActionPerformed
 
     private void combo_supplier_typeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combo_supplier_typeActionPerformed
         ViewSales();
@@ -1013,6 +1212,12 @@ public class FinalReport extends javax.swing.JDialog {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         generateReport();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void combo_productActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combo_productActionPerformed
+        ViewSales();
+        ViewPurchases();
+        calculateTotal();
+    }//GEN-LAST:event_combo_productActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1059,7 +1264,8 @@ public class FinalReport extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> combo_customer;
-    private javax.swing.JComboBox<String> combo_customer_type;
+    private javax.swing.JComboBox<String> combo_payment_type;
+    private javax.swing.JComboBox<String> combo_product;
     private javax.swing.JComboBox<String> combo_supplier;
     private javax.swing.JComboBox<String> combo_supplier_type;
     private javax.swing.JButton jButton1;
@@ -1071,6 +1277,7 @@ public class FinalReport extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

@@ -682,8 +682,8 @@ t.schedule(new TimerTask() {
                 try {
 
                     String sql = "Insert into GRN(grnno,Date,Supplier,Plate_no,Product,first_weight,"
-                            + "second_weight,net_weight,Intime,outtime,amount,total,payment_method,user,paid,due) "
-                            + "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                            + "second_weight,net_weight,Intime,outtime,amount,total,payment_method,user,paid,due,reduced_weight,cross_weight) "
+                            + "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                     PreparedStatement pst = con.prepareStatement(sql);
 
                     pst.setString(1, grnno.getText());
@@ -702,6 +702,8 @@ t.schedule(new TimerTask() {
                     pst.setString(14, txt_userid.getText());
                     pst.setString(15, paid_amount1.getText());
                     pst.setString(16, due1.getText());
+                    pst.setString(17, reducedweight.getText()); //txt_crossedweight
+                    pst.setString(18, txt_crossweight.getText());
                     
                     pst.executeUpdate();
                     pst.close();
@@ -790,12 +792,13 @@ t.schedule(new TimerTask() {
                 double netweight = inweight-outweight;
                 
                 txt_netweight1.setText(netweight+"");
+                txt_crossweight.setText(netweight-Double.parseDouble(reducedweight.getText())+"");
                 
                 intime1.setText(rs.getString("Intime"));
                 outtime1.setText(rs.getString("Outtime"));
                 
-                 txt_total1.setText(netweight*Double.parseDouble(amount1.getText())/1000+"");
-                 due1.setText(netweight*Double.parseDouble(amount1.getText())/1000+"");
+                 txt_total1.setText(Double.parseDouble(txt_crossweight.getText())*Double.parseDouble(amount1.getText())/1000+"");
+                 due1.setText(Double.parseDouble(txt_crossweight.getText())*Double.parseDouble(amount1.getText())/1000+"");
             }
             
             pst.close();
@@ -946,6 +949,10 @@ t.schedule(new TimerTask() {
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         amount1 = new javax.swing.JLabel();
+        jLabel59 = new javax.swing.JLabel();
+        reducedweight = new javax.swing.JTextField();
+        jLabel60 = new javax.swing.JLabel();
+        txt_crossweight = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
         jLabel19 = new javax.swing.JLabel();
@@ -1030,6 +1037,7 @@ t.schedule(new TimerTask() {
 
         jLabel29.setText("Weight :");
 
+        weight.setEditable(false);
         weight.setBackground(new java.awt.Color(0, 0, 0));
         weight.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
         weight.setForeground(new java.awt.Color(0, 153, 153));
@@ -2010,6 +2018,41 @@ t.schedule(new TimerTask() {
 
         amount1.setText("0");
 
+        jLabel59.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel59.setText("Reduced : ");
+
+        reducedweight.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        reducedweight.setText("0");
+        reducedweight.setSelectionColor(new java.awt.Color(229, 126, 49));
+        reducedweight.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                reducedweightFocusGained(evt);
+            }
+        });
+        reducedweight.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                reducedweightActionPerformed(evt);
+            }
+        });
+        reducedweight.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                reducedweightKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                reducedweightKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                reducedweightKeyTyped(evt);
+            }
+        });
+
+        jLabel60.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel60.setText("Crossed Weight :");
+
+        txt_crossweight.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        txt_crossweight.setForeground(new java.awt.Color(153, 0, 51));
+        txt_crossweight.setText("0");
+
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
@@ -2044,7 +2087,7 @@ t.schedule(new TimerTask() {
                         .addComponent(secondweight1, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel10)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                         .addComponent(jLabel53)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(outtime1, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -2056,26 +2099,37 @@ t.schedule(new TimerTask() {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(intime1, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel7Layout.createSequentialGroup()
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel7Layout.createSequentialGroup()
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel11)
-                                .addGap(3, 3, 3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(txt_total1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel7Layout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(jPanel7Layout.createSequentialGroup()
-                                        .addGap(10, 10, 10)
-                                        .addComponent(jLabel12)
+                                        .addComponent(jLabel60)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(txt_crossweight, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(jPanel7Layout.createSequentialGroup()
+                                                .addGap(10, 10, 10)
+                                                .addComponent(jLabel12)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(amount1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addGroup(jPanel7Layout.createSequentialGroup()
+                                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLabel59, javax.swing.GroupLayout.Alignment.TRAILING))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(amount1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(txt_netweight1, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(240, 240, 240)))
+                                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(txt_netweight1, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(reducedweight, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                        .addGap(229, 229, 229)))
                 .addGap(85, 85, 85))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                .addContainerGap(459, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
                         .addComponent(jLabel45)
@@ -2093,7 +2147,7 @@ t.schedule(new TimerTask() {
                                 .addComponent(jLabel51)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(due1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(169, 169, 169))))
+                        .addGap(167, 167, 167))))
             .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel7Layout.createSequentialGroup()
                     .addGap(7, 7, 7)
@@ -2119,7 +2173,7 @@ t.schedule(new TimerTask() {
                             .addComponent(firstweight1, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jLabel8)))
-                    .addGap(8, 384, Short.MAX_VALUE)))
+                    .addGap(8, 361, Short.MAX_VALUE)))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2144,17 +2198,33 @@ t.schedule(new TimerTask() {
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txt_netweight1)
                     .addComponent(jLabel7))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel59)
+                    .addComponent(reducedweight, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel60)
+                    .addComponent(txt_crossweight))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
                     .addComponent(amount1))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
                     .addComponent(txt_total1))
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel7Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 165, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(paid_amount1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel50, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(due1)
+                    .addComponent(jLabel51, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel46, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jRadioButton10)
@@ -2165,16 +2235,7 @@ t.schedule(new TimerTask() {
                             .addComponent(jRadioButton7)
                             .addComponent(jRadioButton6))
                         .addGap(32, 32, 32))
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addGap(28, 28, 28)
-                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                            .addComponent(paid_amount1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel50, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(due1)
-                            .addComponent(jLabel51, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -2942,6 +3003,7 @@ t.schedule(new TimerTask() {
         txt_total1.setText("0");
         paid_amount1.setText("0");
         due1.setText("0");
+        reducedweight.setText("0");
 
     }//GEN-LAST:event_plateno3KeyPressed
 
@@ -3240,6 +3302,39 @@ t.schedule(new TimerTask() {
         }
     }//GEN-LAST:event_transportKeyReleased
 
+    private void reducedweightActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reducedweightActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_reducedweightActionPerformed
+
+    private void reducedweightKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_reducedweightKeyPressed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_reducedweightKeyPressed
+
+    private void reducedweightKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_reducedweightKeyReleased
+        // TODO add your handling code here:
+        txt_crossweight.setText(txt_netweight1.getText());
+        if ("".equals(reducedweight.getText())) {
+            reducedweight.setText("0");
+            reducedweight.selectAll();
+            getPrice();
+            getRecentVehicleAmountGRN();
+//            paid_amount1.selectAll();
+
+        }else if(!"0".equals(reducedweight.getText())) {
+           getPrice();
+            getRecentVehicleAmountGRN();
+        }
+    }//GEN-LAST:event_reducedweightKeyReleased
+
+    private void reducedweightKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_reducedweightKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_reducedweightKeyTyped
+
+    private void reducedweightFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_reducedweightFocusGained
+        reducedweight.selectAll();
+    }//GEN-LAST:event_reducedweightFocusGained
+
     /**
      * @param args the command line arguments
      */
@@ -3357,7 +3452,9 @@ t.schedule(new TimerTask() {
     private javax.swing.JLabel jLabel56;
     private javax.swing.JLabel jLabel57;
     private javax.swing.JLabel jLabel58;
+    private javax.swing.JLabel jLabel59;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel60;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
@@ -3413,10 +3510,12 @@ t.schedule(new TimerTask() {
     private javax.swing.JTextField plateno3;
     private javax.swing.JComboBox<String> product;
     private javax.swing.JLabel product2;
+    private javax.swing.JTextField reducedweight;
     private javax.swing.JComboBox<String> sale_category;
     private javax.swing.JTextField secondweight;
     private javax.swing.JTextField secondweight1;
     private javax.swing.JTextField transport;
+    private javax.swing.JLabel txt_crossweight;
     private javax.swing.JLabel txt_nettotal;
     private javax.swing.JTextField txt_netweight;
     private javax.swing.JLabel txt_netweight1;
