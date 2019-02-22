@@ -682,8 +682,8 @@ t.schedule(new TimerTask() {
                 try {
 
                     String sql = "Insert into GRN(grnno,Date,Supplier,Plate_no,Product,first_weight,"
-                            + "second_weight,net_weight,Intime,outtime,amount,total,payment_method,user,paid,due) "
-                            + "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                            + "second_weight,net_weight,reduced_weight,cross_weight,Intime,outtime,amount,total,payment_method,user,paid,due) "
+                            + "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                     PreparedStatement pst = con.prepareStatement(sql);
 
                     pst.setString(1, grnno.getText());
@@ -694,14 +694,16 @@ t.schedule(new TimerTask() {
                     pst.setString(6, firstweight1.getText());
                     pst.setString(7, secondweight1.getText());
                     pst.setString(8, txt_netweight1.getText());
-                    pst.setString(9, intime1.getText());
-                    pst.setString(10, outtime1.getText());
-                    pst.setString(11, amount1.getText());
-                    pst.setString(12, txt_total1.getText());
-                    pst.setString(13, getSelectedPaymentButtonGRN());
-                    pst.setString(14, txt_userid.getText());
-                    pst.setString(15, paid_amount1.getText());
-                    pst.setString(16, due1.getText());
+//                    pst.setString(9, txt_reduced_weight.getText());
+//                    pst.setString(10, cross_weight.getText());
+                    pst.setString(11, intime1.getText());
+                    pst.setString(12, outtime1.getText());
+                    pst.setString(13, amount1.getText());
+                    pst.setString(14, txt_total1.getText());
+                    pst.setString(15, getSelectedPaymentButtonGRN());
+                    pst.setString(16, txt_userid.getText());
+                    pst.setString(17, paid_amount1.getText());
+                    pst.setString(18, due1.getText());
                     
                     pst.executeUpdate();
                     pst.close();
@@ -2631,7 +2633,7 @@ t.schedule(new TimerTask() {
 
     private void plate_noKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_plate_noKeyPressed
 
-        weight.setText("");
+        weight.setText("0");
     }//GEN-LAST:event_plate_noKeyPressed
 
     private void plate_noKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_plate_noKeyReleased
@@ -2678,6 +2680,7 @@ t.schedule(new TimerTask() {
                     InsertToRecord();
                 }
                 plate_no.setText("");
+                 weight.setText("0");
             }catch(SQLException e){
                 JOptionPane.showMessageDialog(null, "x"+e);
             }
