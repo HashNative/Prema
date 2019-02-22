@@ -1037,13 +1037,17 @@ t.schedule(new TimerTask() {
 
         jLabel29.setText("Weight :");
 
-        weight.setEditable(false);
         weight.setBackground(new java.awt.Color(0, 0, 0));
         weight.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
         weight.setForeground(new java.awt.Color(0, 153, 153));
         weight.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         weight.setText("0");
         weight.setSelectionColor(new java.awt.Color(229, 126, 49));
+        weight.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                weightFocusGained(evt);
+            }
+        });
         weight.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 weightActionPerformed(evt);
@@ -2722,7 +2726,11 @@ t.schedule(new TimerTask() {
     }//GEN-LAST:event_weightKeyPressed
 
     private void weightKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_weightKeyReleased
-        // TODO add your handling code here:
+          if ("".equals(weight.getText())) {
+            weight.setText("0");
+            weight.selectAll();
+           
+        }
     }//GEN-LAST:event_weightKeyReleased
 
     private void inout_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inout_buttonActionPerformed
@@ -2740,6 +2748,7 @@ t.schedule(new TimerTask() {
                 }
                 plate_no.setText("");
                 weight.setText("");
+                
             }catch(SQLException e){
                 JOptionPane.showMessageDialog(null, "x"+e);
             }
@@ -3335,6 +3344,10 @@ t.schedule(new TimerTask() {
     private void reducedweightFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_reducedweightFocusGained
         reducedweight.selectAll();
     }//GEN-LAST:event_reducedweightFocusGained
+
+    private void weightFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_weightFocusGained
+        weight.selectAll();
+    }//GEN-LAST:event_weightFocusGained
 
     /**
      * @param args the command line arguments

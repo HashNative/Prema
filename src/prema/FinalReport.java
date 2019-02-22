@@ -699,6 +699,12 @@ public class FinalReport extends javax.swing.JDialog {
             label = new Label(4, 4, combo_customer.getSelectedItem().toString(),cFormat2);
             excelSheet.addCell(label);
 
+            label = new Label(3, 5, "Product : ",cFormat2);
+            excelSheet.addCell(label);
+
+            label = new Label(4, 5, combo_product.getSelectedItem().toString(),cFormat2);
+            excelSheet.addCell(label);
+            
             label = new Label(6, 4, "Payement : ",cFormat2);
             excelSheet.addCell(label);
 
