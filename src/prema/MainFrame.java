@@ -2692,7 +2692,7 @@ t.schedule(new TimerTask() {
 
     private void plate_noKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_plate_noKeyPressed
 
-        weight.setText("");
+        weight.setText("0");
     }//GEN-LAST:event_plate_noKeyPressed
 
     private void plate_noKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_plate_noKeyReleased
@@ -2739,6 +2739,7 @@ t.schedule(new TimerTask() {
                     InsertToRecord();
                 }
                 plate_no.setText("");
+                weight.setText("");
             }catch(SQLException e){
                 JOptionPane.showMessageDialog(null, "x"+e);
             }

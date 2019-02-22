@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 21, 2019 at 06:07 PM
+-- Generation Time: Feb 22, 2019 at 05:45 AM
 -- Server version: 5.7.14
 -- PHP Version: 5.6.25
 
@@ -58,6 +58,8 @@ CREATE TABLE `grn` (
   `first_weight` varchar(45) NOT NULL DEFAULT '',
   `second_weight` varchar(45) NOT NULL DEFAULT '',
   `net_weight` varchar(45) NOT NULL DEFAULT '',
+  `reduced_weight` varchar(255) DEFAULT NULL,
+  `cross_weight` varchar(255) DEFAULT NULL,
   `intime` varchar(45) NOT NULL DEFAULT '',
   `outtime` varchar(45) NOT NULL DEFAULT '',
   `amount` varchar(45) NOT NULL DEFAULT '',
@@ -72,10 +74,10 @@ CREATE TABLE `grn` (
 -- Dumping data for table `grn`
 --
 
-INSERT INTO `grn` (`No`, `grnno`, `Date`, `Supplier`, `Plate_no`, `Product`, `first_weight`, `second_weight`, `net_weight`, `intime`, `outtime`, `amount`, `total`, `payment_method`, `user`, `paid`, `due`) VALUES
-(1, '1', '2019-01-14 14:35:35', 'Ilham', '123', 'C-1', '20000.0', '100.0', '19900.0', '2019-01-14 14:35:27', '2019-01-14 14:35:33', '200', '3980.0', 'Cash', 'admin', '3980', '0.0'),
-(2, '2', '2019-01-14 15:03:42', 'Ilham', '123', 'C-1', '20000.0', '100.0', '19900.0', '2019-01-14 14:35:27', '2019-01-14 14:35:33', '200', '3980.0', 'Cash', 'admin', '3980', '0.0'),
-(3, '3', '2019-01-17 12:21:14', 'Ilham', '123', 'C-1', '20000.0', '100.0', '19900.0', '2019-01-14 14:35:27', '2019-01-14 14:35:33', '200', '3980.0', 'Cash', 'admin', '3980', '0.0');
+INSERT INTO `grn` (`No`, `grnno`, `Date`, `Supplier`, `Plate_no`, `Product`, `first_weight`, `second_weight`, `net_weight`, `reduced_weight`, `cross_weight`, `intime`, `outtime`, `amount`, `total`, `payment_method`, `user`, `paid`, `due`) VALUES
+(1, '1', '2019-01-14 14:35:35', 'Ilham', '123', 'C-1', '20000.0', '100.0', '19900.0', '', '', '2019-01-14 14:35:27', '2019-01-14 14:35:33', '200', '3980.0', 'Cash', 'admin', '3980', '0.0'),
+(2, '2', '2019-01-14 15:03:42', 'Ilham', '123', 'C-1', '20000.0', '100.0', '19900.0', '', '', '2019-01-14 14:35:27', '2019-01-14 14:35:33', '200', '3980.0', 'Cash', 'admin', '3980', '0.0'),
+(3, '3', '2019-01-17 12:21:14', 'Ilham', '123', 'C-1', '20000.0', '100.0', '19900.0', '', '', '2019-01-14 14:35:27', '2019-01-14 14:35:33', '200', '3980.0', 'Cash', 'admin', '3980', '0.0');
 
 -- --------------------------------------------------------
 
@@ -228,9 +230,13 @@ CREATE TABLE `record` (
 
 INSERT INTO `record` (`No`, `Plate_no`, `Driver_name`, `Intime`, `Outtime`, `Inweight`, `status`, `OutWeight`) VALUES
 (1, '123', 'Ilham', '2019-01-14 14:35:27', '2019-02-01 10:18:15', '20000', 'Completed', '0'),
-(2, '111', 'Customer', '2019-01-19 17:22:41', '2019-01-19 17:22:49', '200', 'Completed', '2000'),
+(2, '111', 'Customer', '2019-01-19 17:22:41', '2019-02-22 09:31:07', '200', 'Completed', '333'),
 (3, '123', 'Ilham', '2019-02-01 10:18:10', '2019-02-01 10:18:15', '0', 'Completed', '0'),
-(4, '111DN', 'Customer', '2019-02-01 10:23:05', '2019-02-01 10:25:27', '1000', 'Completed', '2000');
+(4, '111DN', 'Customer', '2019-02-01 10:23:05', '2019-02-01 10:25:27', '1000', 'Completed', '2000'),
+(6, '111', 'Customer', '2019-02-22 09:30:12', '2019-02-22 09:31:07', '111', 'Completed', '333'),
+(7, '1111', 'Customer', '2019-02-22 09:32:25', '', '444', 'In Progress', '0'),
+(8, '77', 'Customer', '2019-02-22 09:33:04', '', '111', 'In Progress', '0'),
+(9, '222', 'Customer', '2019-02-22 09:34:51', '', '111', 'In Progress', '0');
 
 -- --------------------------------------------------------
 
@@ -377,7 +383,7 @@ ALTER TABLE `personalprice`
 -- AUTO_INCREMENT for table `record`
 --
 ALTER TABLE `record`
-  MODIFY `No` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `No` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `stock`
 --

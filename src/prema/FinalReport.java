@@ -778,16 +778,6 @@ public class FinalReport extends javax.swing.JDialog {
                             
             myFirstWbook.write();
 
-             int dialogButton = JOptionPane.YES_NO_OPTION;
-        int dialogResult = JOptionPane.showConfirmDialog(null, "Do you want to open the Export file?", "Open Confirmation", dialogButton);
-        if (dialogResult == JOptionPane.YES_OPTION) {
-//            try {
-//                        Desktop dt = Desktop.getDesktop();
-//                        dt.open(new File(EXCEL_FILE_LOCATION));
-//                    } catch (Exception e ){
-//                                    JOptionPane.showMessageDialog(null, e);
-//                    } 
-       }  
             JOptionPane.showMessageDialog(null, "Report Printed to " + EXCEL_FILE_LOCATION);
         } catch (IOException e) {
             e.printStackTrace();
