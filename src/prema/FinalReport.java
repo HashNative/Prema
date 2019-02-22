@@ -657,20 +657,23 @@ public class FinalReport extends javax.swing.JDialog {
             WritableFont font = new WritableFont(WritableFont.ARIAL, 18, WritableFont.BOLD);
             font.setUnderlineStyle(UnderlineStyle.DOUBLE);
             cFormat.setFont(font);
+            cFormat.setAlignment(jxl.format.Alignment.CENTRE);
 
-            Label label = new Label(6, 1, "Final Report:" + " From " + Date1 + " To " + Date2, cFormat);
+            Label label = new Label(8, 1, "Final Report:" + " From " + Date1 + " To " + Date2, cFormat);
             excelSheet.addCell(label);
             
             //Sub title style
             WritableCellFormat cFormat1 = new WritableCellFormat();
             WritableFont font1 = new WritableFont(WritableFont.createFont("Times New Roman"), 16, WritableFont.BOLD);
             font1.setUnderlineStyle(UnderlineStyle.SINGLE);
-            cFormat1.setFont(font1);         
+            cFormat1.setFont(font1);    
+            cFormat1.setAlignment(jxl.format.Alignment.CENTRE);
            
             //Customer/Supplier details style
             WritableCellFormat cFormat2 = new WritableCellFormat();
             WritableFont font2 = new WritableFont(WritableFont.createFont("Times New Roman"), 13, WritableFont.BOLD);
             cFormat2.setFont(font2);
+            cFormat2.setAlignment(jxl.format.Alignment.CENTRE);
             
             //cFormat2.setBorder(Border.BOTTOM, BorderLineStyle.DASHED);
                          
