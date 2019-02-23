@@ -96,9 +96,13 @@ public class PurchaseReport extends javax.swing.JDialog {
                 
                  if(!"user".equals(userid)){
                 v.add(rs.getString("net_weight"));
+                v.add(rs.getString("reduced_weight"));
+                v.add(rs.getString("cross_weight"));
                 v.add(rs.getString("total"));
                 }else{
-                v.add(Double.parseDouble(rs.getString("net_weight"))*60/100+"");   
+                v.add(Double.parseDouble(rs.getString("net_weight"))*60/100+"");  
+                v.add(Double.parseDouble(rs.getString("reduced_weight"))*60/100+"");
+                v.add(Double.parseDouble(rs.getString("cross_weight"))*60/100+"");
                 v.add(Double.parseDouble(rs.getString("total"))*60/100+"");
                 }
                 v.add(rs.getString("payment_method"));
@@ -131,9 +135,13 @@ public class PurchaseReport extends javax.swing.JDialog {
                 
                  if(!"user".equals(userid)){
                 v.add(rs.getString("net_weight"));
+               v.add(rs.getString("reduced_weight"));
+                v.add(rs.getString("cross_weight"));
                 v.add(rs.getString("total"));
                 }else{
-                v.add(Double.parseDouble(rs.getString("net_weight"))*60/100+"");   
+                v.add(Double.parseDouble(rs.getString("net_weight"))*60/100+"");  
+                v.add(Double.parseDouble(rs.getString("reduced_weight"))*60/100+"");
+                v.add(Double.parseDouble(rs.getString("cross_weight"))*60/100+"");
                 v.add(Double.parseDouble(rs.getString("total"))*60/100+"");
                 }
                 v.add(rs.getString("payment_method"));
@@ -160,8 +168,8 @@ public class PurchaseReport extends javax.swing.JDialog {
         double totalamounts=0;
         for(int i=0;i<=invoicetable.getRowCount()-1;i++){
             
-            totalweights=totalweights+Double.parseDouble(invoicetable.getModel().getValueAt(i, 5).toString());
-            totalamounts=totalamounts+Double.parseDouble(invoicetable.getModel().getValueAt(i, 6).toString());
+            totalweights=totalweights+Double.parseDouble(invoicetable.getModel().getValueAt(i, 7).toString());
+            totalamounts=totalamounts+Double.parseDouble(invoicetable.getModel().getValueAt(i, 8).toString());
         
         }
         totalweight.setText(totalweights+"");
@@ -238,11 +246,11 @@ public class PurchaseReport extends javax.swing.JDialog {
 
             },
             new String [] {
-                "GRN No", "Date", "User", "Supplier", "Plate No", "Net weight", "Total", "Payment Method"
+                "GRN No", "Date", "User", "Supplier", "Plate No", "Net weight", "Reduced weight", "Cross weight", "Total", "Payment Method"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -320,26 +328,28 @@ public class PurchaseReport extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane5)
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane5)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 104, Short.MAX_VALUE)
+                        .addComponent(jLabel16)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(combo_supplier_search, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jDateChooser3, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton3)
+                        .addGap(41, 41, 41))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel16)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(combo_supplier_search, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jDateChooser3, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton3)
-                .addGap(41, 41, 41))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(264, 264, 264)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel6)
@@ -349,7 +359,7 @@ public class PurchaseReport extends javax.swing.JDialog {
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(totalamount, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(313, 313, 313))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -374,7 +384,7 @@ public class PurchaseReport extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
                     .addComponent(totalamount))
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addContainerGap(52, Short.MAX_VALUE))
         );
 
         pack();

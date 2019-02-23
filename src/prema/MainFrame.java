@@ -69,6 +69,16 @@ public class MainFrame extends javax.swing.JFrame implements SerialPortEventList
         jDateChooser4.setDate(c.getTime());     
         getRecentVehicleAmountForWeight();
         
+        
+               Timer t = new Timer();
+t.schedule(new TimerTask() {
+    @Override
+    public void run() {
+      if(!"0".equals(result) ){  
+       weight.setText(result);
+      }
+    }
+}, 0, 50);
     }
     
      MainFrame(String username){
@@ -99,7 +109,9 @@ public class MainFrame extends javax.swing.JFrame implements SerialPortEventList
 t.schedule(new TimerTask() {
     @Override
     public void run() {
+      if(!"0".equals(result) ){  
        weight.setText(result);
+      }
     }
 }, 0, 50);
      }
@@ -1046,6 +1058,11 @@ t.schedule(new TimerTask() {
         weight.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 weightFocusGained(evt);
+            }
+        });
+        weight.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                weightMouseClicked(evt);
             }
         });
         weight.addActionListener(new java.awt.event.ActionListener() {
@@ -3348,6 +3365,10 @@ t.schedule(new TimerTask() {
     private void weightFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_weightFocusGained
         weight.selectAll();
     }//GEN-LAST:event_weightFocusGained
+
+    private void weightMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_weightMouseClicked
+          weight.selectAll();
+    }//GEN-LAST:event_weightMouseClicked
 
     /**
      * @param args the command line arguments
