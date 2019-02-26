@@ -406,7 +406,7 @@ t.schedule(new TimerTask() {
         
                  try {
 
-                   String sql = "Insert into Invoice(ino,Date,Customer,Plate_no,Product,first_weight,"
+                    String sql = "Insert into Invoice(ino,Date,Customer,Plate_no,Product,first_weight,"
                             + "second_weight,net_weight,Intime,outtime,amount,total,discount,transport,net_total,payment_method,user,paid,due) "
                             + "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                     PreparedStatement pst = con.prepareStatement(sql);
@@ -438,21 +438,26 @@ t.schedule(new TimerTask() {
                     
                     Read r = new Read();
                   try {
-                      
-                            HashMap<String, Object> params = new HashMap<String, Object>();
-                            params.put("ID", ino.getText() + "");
-                            params.put("image_url",(r.getProperty("path")) + "\\Prema\\Logo.PNG");
-                            String category = "Kg";
-                            if("Weight".equals(sale_category.getSelectedItem())){
-                                
-                            }else{
-                              category="Cube";
-                            }
-                            params.put("sales_category", category);
-                            ReportJasper.printInvoice((r.getProperty("path")) + "\\Prema\\InvoiceNew.jrxml", params);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+
+                    HashMap<String, Object> params = new HashMap<String, Object>();
+                    params.put("ID", ino.getText() + "");
+                    params.put("image_url",(r.getProperty("path")) + "\\Prema\\Logo.PNG");
+                    String category = "Kg";
+                    if("Weight".equals(sale_category.getSelectedItem())){
+
+                    }else{
+                      category="Cube";
+                    }
+                    params.put("sales_category", category);
+                    if(!"Credit".equals(getSelectedPaymentButton())){
+                    ReportJasper.printInvoice((r.getProperty("path")) + "\\Prema\\InvoiceNew.jrxml", params);
+                    }else{
+                    ReportJasper.printInvoice((r.getProperty("path")) + "\\Prema\\InvoiceCreditSale.jrxml", params);
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                  
                  
                 clear();

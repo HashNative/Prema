@@ -112,7 +112,7 @@ public class Login extends javax.swing.JFrame {
         jLabel1.setText("Username :");
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel2.setText("Username :");
+        jLabel2.setText("Password :");
 
         txtpassword.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtpassword.addActionListener(new java.awt.event.ActionListener() {

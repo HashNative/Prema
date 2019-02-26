@@ -13,9 +13,13 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import static javax.swing.text.StyleConstants.Alignment;
@@ -56,7 +60,7 @@ public class FinalReport extends javax.swing.JDialog {
         AutoCompleteDecorator.decorate(combo_supplier);
         AutoCompleteDecorator.decorate(combo_product);
         AutoCompleteDecorator.decorate(combo_customer);
-        
+        update();
         ViewSales();
         ViewPurchases();
         FillcomboCustomer();
@@ -76,7 +80,8 @@ public class FinalReport extends javax.swing.JDialog {
 
         jDateChooser1.setDate(c.getTime());
         jDateChooser2.setDate(c.getTime());
-
+        
+        update();
         ViewSales();
         ViewPurchases();
         FillcomboCustomer();
@@ -85,8 +90,23 @@ public class FinalReport extends javax.swing.JDialog {
 
     }
 
+    
+    
+       public void update(){
+           
+        try {
+            String sql ="UPDATE Invoice SET net_total=0 WHERE net_total=''";
+           PreparedStatement pst = con.prepareStatement(sql);
+            pst.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(FinalReport.class.getName()).log(Level.SEVERE, null, ex);
+        }
+                
+       
+       
+       }
     public void ViewSales() {
-
+         DecimalFormat df = new DecimalFormat("#.##");	
         String Date1 = null;
         String Date2 = null;
         try {
@@ -132,10 +152,10 @@ public class FinalReport extends javax.swing.JDialog {
                         v.add(rs.getString("net_weight") + " Kg");
                     }
                     if (!"user".equals(userid)) {
-                        v.add(rs.getString("paid"));
+                        v.add(df.format(Double.parseDouble(rs.getString("net_total"))));
                     } else {
 
-                        v.add(Double.parseDouble(rs.getString("total")) * 60 / 100 + "");
+                        v.add(Double.parseDouble(df.format(Double.parseDouble(rs.getString("net_total")))) * 60 / 100 + "");
                     }
                     v.add(rs.getString("payment_method"));
 
@@ -166,11 +186,11 @@ public class FinalReport extends javax.swing.JDialog {
                     } else {
                         v.add(rs.getString("net_weight") + " Kg");
                     }
-                    if (!"user".equals(userid)) {
-                        v.add(rs.getString("paid"));
+                     if (!"user".equals(userid)) {
+                        v.add(df.format(Double.parseDouble(rs.getString("net_total"))));
                     } else {
 
-                        v.add(Double.parseDouble(rs.getString("total")) * 60 / 100 + "");
+                        v.add(Double.parseDouble(df.format(Double.parseDouble(rs.getString("net_total")))) * 60 / 100 + "");
                     }
                     v.add(rs.getString("payment_method"));
 
@@ -201,11 +221,11 @@ public class FinalReport extends javax.swing.JDialog {
                     } else {
                         v.add(rs.getString("net_weight") + " Kg");
                     }
-                    if (!"user".equals(userid)) {
-                        v.add(rs.getString("paid"));
+                     if (!"user".equals(userid)) {
+                        v.add(df.format(Double.parseDouble(rs.getString("net_total"))));
                     } else {
 
-                        v.add(Double.parseDouble(rs.getString("total")) * 60 / 100 + "");
+                        v.add(Double.parseDouble(df.format(Double.parseDouble(rs.getString("net_total")))) * 60 / 100 + "");
                     }
                     v.add(rs.getString("payment_method"));
 
@@ -238,10 +258,10 @@ public class FinalReport extends javax.swing.JDialog {
                         v.add(rs.getString("net_weight") + " Kg");
                     }
                     if (!"user".equals(userid)) {
-                        v.add(rs.getString("paid"));
+                        v.add(df.format(Double.parseDouble(rs.getString("net_total"))));
                     } else {
 
-                        v.add(Double.parseDouble(rs.getString("total")) * 60 / 100 + "");
+                        v.add(Double.parseDouble(df.format(Double.parseDouble(rs.getString("net_total")))) * 60 / 100 + "");
                     }
                     v.add(rs.getString("payment_method"));
 
@@ -274,11 +294,11 @@ public class FinalReport extends javax.swing.JDialog {
                     } else {
                         v.add(rs.getString("net_weight") + " Kg");
                     }
-                    if (!"user".equals(userid)) {
-                        v.add(rs.getString("paid"));
+                     if (!"user".equals(userid)) {
+                        v.add(df.format(Double.parseDouble(rs.getString("net_total"))));
                     } else {
 
-                        v.add(Double.parseDouble(rs.getString("total")) * 60 / 100 + "");
+                        v.add(Double.parseDouble(df.format(Double.parseDouble(rs.getString("net_total")))) * 60 / 100 + "");
                     }
                     v.add(rs.getString("payment_method"));
 
@@ -311,10 +331,10 @@ public class FinalReport extends javax.swing.JDialog {
                         v.add(rs.getString("net_weight") + " Kg");
                     }
                     if (!"user".equals(userid)) {
-                        v.add(rs.getString("paid"));
+                        v.add(df.format(Double.parseDouble(rs.getString("net_total"))));
                     } else {
 
-                        v.add(Double.parseDouble(rs.getString("total")) * 60 / 100 + "");
+                        v.add(Double.parseDouble(df.format(Double.parseDouble(rs.getString("net_total")))) * 60 / 100 + "");
                     }
                     v.add(rs.getString("payment_method"));
 
@@ -346,11 +366,11 @@ public class FinalReport extends javax.swing.JDialog {
                     } else {
                         v.add(rs.getString("net_weight") + " Kg");
                     }
-                    if (!"user".equals(userid)) {
-                        v.add(rs.getString("paid"));
+                     if (!"user".equals(userid)) {
+                        v.add(df.format(Double.parseDouble(rs.getString("net_total"))));
                     } else {
 
-                        v.add(Double.parseDouble(rs.getString("total")) * 60 / 100 + "");
+                        v.add(Double.parseDouble(df.format(Double.parseDouble(rs.getString("net_total")))) * 60 / 100 + "");
                     }
                     v.add(rs.getString("payment_method"));
 
@@ -384,10 +404,10 @@ public class FinalReport extends javax.swing.JDialog {
                         v.add(rs.getString("net_weight") + " Kg");
                     }
                     if (!"user".equals(userid)) {
-                        v.add(rs.getString("paid"));
+                        v.add(df.format(Double.parseDouble(rs.getString("net_total"))));
                     } else {
 
-                        v.add(Double.parseDouble(rs.getString("total")) * 60 / 100 + "");
+                        v.add(Double.parseDouble(df.format(Double.parseDouble(rs.getString("net_total")))) * 60 / 100 + "");
                     }
                     v.add(rs.getString("payment_method"));
 
@@ -406,6 +426,7 @@ public class FinalReport extends javax.swing.JDialog {
     }
 
     public void ViewPurchases() {
+         DecimalFormat df = new DecimalFormat("#.##");	
         String Date1 = null;
         String Date2 = null;
         try {
@@ -449,7 +470,7 @@ public class FinalReport extends javax.swing.JDialog {
                     } else {
                         v.add(rs.getString("net_weight") + " Kg");
                     }
-                    v.add(rs.getString("paid"));
+                    v.add(df.format(Double.parseDouble(rs.getString("total"))));
                     v.add(rs.getString("payment_method"));
 
                     dtm.addRow(v);
@@ -478,7 +499,7 @@ public class FinalReport extends javax.swing.JDialog {
                     } else {
                         v.add(rs.getString("net_weight") + " Kg");
                     }
-                    v.add(rs.getString("paid"));
+                    v.add(df.format(Double.parseDouble(rs.getString("total"))));
                     v.add(rs.getString("payment_method"));
 
                     dtm.addRow(v);
@@ -508,7 +529,7 @@ public class FinalReport extends javax.swing.JDialog {
                     } else {
                         v.add(rs.getString("net_weight") + " Kg");
                     }
-                    v.add(rs.getString("paid"));
+                    v.add(df.format(Double.parseDouble(rs.getString("total"))));
                     v.add(rs.getString("payment_method"));
 
                     dtm.addRow(v);
@@ -539,7 +560,7 @@ public class FinalReport extends javax.swing.JDialog {
                     } else {
                         v.add(rs.getString("net_weight") + " Kg");
                     }
-                    v.add(rs.getString("paid"));
+                    v.add(df.format(Double.parseDouble(rs.getString("total"))));
                     v.add(rs.getString("payment_method"));
 
                     dtm.addRow(v);
@@ -570,9 +591,9 @@ public class FinalReport extends javax.swing.JDialog {
 
             purchaseamount = purchaseamount + Double.parseDouble(purchase_table.getValueAt(i, 3).toString());
         }
-
-        sales.setText(salesamount + "");
-        purchases.setText(purchaseamount + "");
+        DecimalFormat df = new DecimalFormat("#.##");
+        sales.setText(df.format(salesamount) + "");
+        purchases.setText(df.format(purchaseamount) + "");
 
     }
 
@@ -639,17 +660,22 @@ public class FinalReport extends javax.swing.JDialog {
            e.printStackTrace(); 
         }
          
-        String EXCEL_FILE_LOCATION = System.getProperty("user.home") + "/Desktop/FinalReport.xls";
+        String SALES_FILE_LOCATION = System.getProperty("user.home") + "/Desktop/Sales Report-("+Date1+"-"+Date2+").xls";
+        String PURCHASE_FILE_LOCATION = System.getProperty("user.home") + "/Desktop/Purchase Report-("+Date1+"-"+Date2+").xls";
 
         //1. Create an Excel file
         WritableWorkbook myFirstWbook = null;
+        WritableWorkbook mySecondWbook = null;
+        
+        try{
         try {
 
-            myFirstWbook = Workbook.createWorkbook(new File(EXCEL_FILE_LOCATION));
+            myFirstWbook = Workbook.createWorkbook(new File(SALES_FILE_LOCATION));
+            mySecondWbook = Workbook.createWorkbook(new File(PURCHASE_FILE_LOCATION));
 
             // create an Excel sheet
-            WritableSheet excelSheet = myFirstWbook.createSheet("Sheet 1", 0);
-
+            WritableSheet excelSheet1 = myFirstWbook.createSheet("Sheet 1", 0);
+           
             // add something into the Excel sheet
             
             //Title style
@@ -659,9 +685,6 @@ public class FinalReport extends javax.swing.JDialog {
             cFormat.setFont(font);
             cFormat.setAlignment(jxl.format.Alignment.CENTRE);
 
-            Label label = new Label(8, 1, "Final Report:" + " From " + Date1 + " To " + Date2, cFormat);
-            excelSheet.addCell(label);
-            
             //Sub title style
             WritableCellFormat cFormat1 = new WritableCellFormat();
             WritableFont font1 = new WritableFont(WritableFont.createFont("Times New Roman"), 16, WritableFont.BOLD);
@@ -680,8 +703,7 @@ public class FinalReport extends javax.swing.JDialog {
              //table header style
             WritableCellFormat cFormat4 = new WritableCellFormat();
             WritableFont font4 = new WritableFont(WritableFont.createFont("Times New Roman"), 13, WritableFont.BOLD);
-            cFormat4.setFont(font4);
-            
+            cFormat4.setFont(font4);         
             cFormat4.setBackground(Colour.GRAY_25);
              
              //table content style
@@ -692,32 +714,35 @@ public class FinalReport extends javax.swing.JDialog {
             
             cFormat3.setBorder(Border.ALL, BorderLineStyle.THIN);
             
+            
+            Label label = new Label(6, 1, "Sales Report:" + " From " + Date1 + " To " + Date2, cFormat);
+            excelSheet1.addCell(label);
             //Sales -Header
             label = new Label(5, 3, "Sales",cFormat1);   
-            excelSheet.addCell(label);
+            excelSheet1.addCell(label);
 
             label = new Label(3, 4, "Customer : ",cFormat2);
-            excelSheet.addCell(label);
+            excelSheet1.addCell(label);
 
             label = new Label(4, 4, combo_customer.getSelectedItem().toString(),cFormat2);
-            excelSheet.addCell(label);
+            excelSheet1.addCell(label);
 
             label = new Label(3, 5, "Product : ",cFormat2);
-            excelSheet.addCell(label);
+            excelSheet1.addCell(label);
 
             label = new Label(4, 5, combo_product.getSelectedItem().toString(),cFormat2);
-            excelSheet.addCell(label);
+            excelSheet1.addCell(label);
             
             label = new Label(6, 4, "Payement : ",cFormat2);
-            excelSheet.addCell(label);
+            excelSheet1.addCell(label);
 
             label = new Label(7, 4, combo_payment_type.getSelectedItem().toString(),cFormat2);
-            excelSheet.addCell(label);
+            excelSheet1.addCell(label);
 
             //Table - Header
             for (int i = 0; i <= sales_table.getColumnCount() - 1; i++) {
                 label = new Label(3 + i, 6, sales_table.getColumnName(i),cFormat4);
-                excelSheet.addCell(label);
+                excelSheet1.addCell(label);
             }
 
             //Sales- Details
@@ -727,67 +752,23 @@ public class FinalReport extends javax.swing.JDialog {
                     for (int i = 0; i < sales_table.getRowCount(); i++) {
                     salesfield = sales_table.getValueAt(i, j).toString();
                     label = new Label(3 + j, 7 + i, salesfield, cFormat3);
-                    excelSheet.addCell(label);
+                    excelSheet1.addCell(label);
                     
                     if(i==sales_table.getRowCount()-1){
                        // System.out.println(i);
                         
                     label = new Label(5, 9 + i, "Total : ",cFormat2);
-                    excelSheet.addCell(label);
+                    excelSheet1.addCell(label);
                     
                     label = new Label(6, 9 + i, sales.getText(),cFormat2);
-                    excelSheet.addCell(label);
+                    excelSheet1.addCell(label);
                     }
                 }
             }
-
-            
-                
-                //Purchase -Header
-            label = new Label(11, 3, "Purchase",cFormat1);
-            excelSheet.addCell(label);
-
-            label = new Label(9, 4, "Supplier : ",cFormat2);
-            excelSheet.addCell(label);
-
-            label = new Label(10, 4, combo_supplier.getSelectedItem().toString(),cFormat2);
-            excelSheet.addCell(label);
-
-            label = new Label(12, 4, "Payement : ",cFormat2);
-            excelSheet.addCell(label);
-
-            label = new Label(13, 4, combo_supplier_type.getSelectedItem().toString(),cFormat2);
-            excelSheet.addCell(label);
-
-            //Table - Header
-            for (int i = 0; i <= purchase_table.getColumnCount() - 1; i++) {
-                label = new Label(9 + i, 6, purchase_table.getColumnName(i),cFormat4);
-                excelSheet.addCell(label);
-            }
-
-            //Purchase- Details
-            String purchasefield = null;
                
-                for (int j = 0; j < purchase_table.getColumnCount(); j++) {
-                    for (int i = 0; i < purchase_table.getRowCount(); i++) {
-                    purchasefield = purchase_table.getValueAt(i, j).toString();
-                    label = new Label(9 + j, 7 + i, purchasefield, cFormat3);
-                    excelSheet.addCell(label);
-                    
-                    if(i==purchase_table.getRowCount()-1){
-                       
-                    label = new Label(11, 9 + i, "Total : ",cFormat2);
-                    excelSheet.addCell(label);
-                    
-                    label = new Label(12, 9 + i, purchases.getText(),cFormat2);
-                    excelSheet.addCell(label);
-                    }
-                }
-            }
-                            
-            myFirstWbook.write();
+           myFirstWbook.write();
 
-            JOptionPane.showMessageDialog(null, "Report Printed to " + EXCEL_FILE_LOCATION);
+           
         } catch (IOException e) {
             e.printStackTrace();
         } catch (WriteException e) {
@@ -803,7 +784,119 @@ public class FinalReport extends javax.swing.JDialog {
                     e.printStackTrace();
                 }
             }
+            
+         
+        }
+        
+        try{
+             WritableSheet excelSheet2 = mySecondWbook.createSheet("Sheet 1", 0);
+                //Title style
+            WritableCellFormat cFormatp = new WritableCellFormat();
+            WritableFont fontp = new WritableFont(WritableFont.ARIAL, 18, WritableFont.BOLD);
+            fontp.setUnderlineStyle(UnderlineStyle.DOUBLE);
+            cFormatp.setFont(fontp);
+            cFormatp.setAlignment(jxl.format.Alignment.CENTRE);
 
+            //Sub title style
+            WritableCellFormat cFormat1p = new WritableCellFormat();
+            WritableFont font1p = new WritableFont(WritableFont.createFont("Times New Roman"), 16, WritableFont.BOLD);
+            font1p.setUnderlineStyle(UnderlineStyle.SINGLE);
+            cFormat1p.setFont(font1p);    
+            cFormat1p.setAlignment(jxl.format.Alignment.CENTRE);
+           
+            //Customer/Supplier details style
+            WritableCellFormat cFormat2p = new WritableCellFormat();
+            WritableFont font2p = new WritableFont(WritableFont.createFont("Times New Roman"), 13, WritableFont.BOLD);
+            cFormat2p.setFont(font2p);
+            cFormat2p.setAlignment(jxl.format.Alignment.CENTRE);
+            
+            //cFormat2.setBorder(Border.BOTTOM, BorderLineStyle.DASHED);
+                         
+             //table header style
+            WritableCellFormat cFormat4p = new WritableCellFormat();
+            WritableFont font4p = new WritableFont(WritableFont.createFont("Times New Roman"), 13, WritableFont.BOLD);
+            cFormat4p.setFont(font4p);         
+            cFormat4p.setBackground(Colour.GRAY_25);
+             
+             //table content style
+            WritableCellFormat cFormat3p = new WritableCellFormat();
+            WritableFont font3p = new WritableFont(WritableFont.createFont("Times New Roman"), 11); 
+            cFormat3p.setFont(font3p);
+            
+            
+            cFormat3p.setBorder(Border.ALL, BorderLineStyle.THIN);
+                
+            //Purchase -Header
+                
+            Label label2 = new Label(6, 1, "Purchase Report:" + " From " + Date1 + " To " + Date2, cFormatp);
+            excelSheet2.addCell(label2);
+                
+            label2 = new Label(5, 3, "Purchase",cFormat1p);
+            excelSheet2.addCell(label2);
+
+            label2 = new Label(3, 4, "Supplier : ",cFormat2p);
+            excelSheet2.addCell(label2);
+
+            label2 = new Label(4, 4, combo_supplier.getSelectedItem().toString(),cFormat2p);
+            excelSheet2.addCell(label2);
+
+            label2 = new Label(3, 5, "Payement : ",cFormat2p);
+            excelSheet2.addCell(label2);
+
+            label2 = new Label(4, 5, combo_supplier_type.getSelectedItem().toString(),cFormat2p);
+            excelSheet2.addCell(label2);
+
+            //Table - Header
+            for (int i = 0; i <= purchase_table.getColumnCount() - 1; i++) {
+                label2 = new Label(3 + i, 6, purchase_table.getColumnName(i),cFormat4p);
+                excelSheet2.addCell(label2);
+            }
+
+            //Purchase- Details
+            String purchasefield = null;
+               
+                for (int j = 0; j < purchase_table.getColumnCount(); j++) {
+                    for (int i = 0; i < purchase_table.getRowCount(); i++) {
+                    purchasefield = purchase_table.getValueAt(i, j).toString();
+                    label2 = new Label(3 + j, 7 + i, purchasefield, cFormat3p);
+                    excelSheet2.addCell(label2);
+                    
+                    if(i==purchase_table.getRowCount()-1){
+                       
+                    label2 = new Label(5, 9 + i, "Total : ",cFormat2p);
+                    excelSheet2.addCell(label2);
+                    
+                    label2 = new Label(6, 9 + i, purchases.getText(),cFormat2p);
+                    excelSheet2.addCell(label2);
+                    }
+                }
+            }
+                            
+            
+            mySecondWbook.write();
+        
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (WriteException e) {
+            e.printStackTrace();
+        } finally {
+
+            if (mySecondWbook != null) {
+                try {
+                    mySecondWbook.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (WriteException e) {
+                    e.printStackTrace();
+                }
+            }
+            
+        }
+        
+         JOptionPane.showMessageDialog(null, "Reports Printed to " + System.getProperty("user.home") + "/Desktop");
+        }catch(Exception e){
+        
+        e.printStackTrace();
         }
 
     }
