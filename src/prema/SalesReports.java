@@ -46,24 +46,11 @@ public class SalesReports extends javax.swing.JDialog {
         jDateChooser3.setDate(c.getTime());
         
         ViewInvoice();
-        Ad();
+       
        
     }
        
-    
-    public void Ad(){
-    try{
-    String sql = "Update Invoice SET Transport='0' discount='0' WHERE Transport='' ";
-    
-    PreparedStatement pst = con.prepareStatement(sql);
-    pst.executeUpdate();
-    }catch(Exception e){
-       JOptionPane.showMessageDialog(null, e);
-    }
-    
-    
-    }
-    
+   
     
     
     
@@ -413,7 +400,7 @@ public class SalesReports extends javax.swing.JDialog {
 
     private void invoicetableKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_invoicetableKeyPressed
       
-      if ("admin".equals(userid.getBytes())) {
+      if ("admin".equals(userid)) {
         if (evt.getKeyCode() == KeyEvent.VK_DELETE) {
             if(invoicetable.getSelectedRowCount()>0){
                 int dialogButton = JOptionPane.YES_NO_OPTION;
@@ -430,7 +417,7 @@ public class SalesReports extends javax.swing.JDialog {
                         pst.close();
 
                     } catch (Exception e) {
-                        //  JOptionPane.showMessageDialog(this, e);
+                        JOptionPane.showMessageDialog(this, e);
                     }
                     //If selected GRN
 
