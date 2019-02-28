@@ -374,7 +374,7 @@ Habanhenawatta, Walgama, Athurugiriya
 			</band>
 		</detail>
 		<columnFooter>
-			<band height="207"  isSplitAllowed="true" >
+			<band height="108"  isSplitAllowed="true" >
 				<staticText>
 					<reportElement
 						x="0"
@@ -469,7 +469,7 @@ Habanhenawatta, Walgama, Athurugiriya
 				<staticText>
 					<reportElement
 						x="0"
-						y="191"
+						y="93"
 						width="227"
 						height="15"
 						key="staticText-48"/>
