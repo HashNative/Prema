@@ -30,7 +30,7 @@ public class SalesReports extends javax.swing.JDialog {
     /**
      * Creates new form Suppliers
      */
-     Connection con = null;
+    Connection con = null;
     ResultSet rs = null;
     PreparedStatement pst = null;
     public SalesReports(java.awt.Frame parent, boolean modal) {
@@ -399,7 +399,6 @@ public class SalesReports extends javax.swing.JDialog {
     }//GEN-LAST:event_invoicetableMouseClicked
 
     private void invoicetableKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_invoicetableKeyPressed
-      
       if ("admin".equals(userid)) {
         if (evt.getKeyCode() == KeyEvent.VK_DELETE) {
             if(invoicetable.getSelectedRowCount()>0){

@@ -3148,7 +3148,7 @@ t.schedule(new TimerTask() {
     }//GEN-LAST:event_jMenuItem9ActionPerformed
 
     private void jPanel9MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel9MouseReleased
-       new PurchaseReport(this, true).setVisible(true);
+       new PurchaseReport(this, true, txt_userid.getText()).setVisible(true);
     }//GEN-LAST:event_jPanel9MouseReleased
 
     private void jPanel10MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel10MouseReleased
