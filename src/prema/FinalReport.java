@@ -714,34 +714,34 @@ public class FinalReport extends javax.swing.JDialog {
             
             cFormat3.setBorder(Border.ALL, BorderLineStyle.THIN);
             
-            
-            Label label = new Label(6, 1, "Sales Report:" + " From " + Date1 + " To " + Date2, cFormat);
+            excelSheet1.mergeCells(0, 1, 4, 1);
+            Label label = new Label(0, 1, "Sales Report:" + " From " + Date1 + " To " + Date2, cFormat);
             excelSheet1.addCell(label);
             //Sales -Header
-            label = new Label(5, 3, "Sales",cFormat1);   
+            label = new Label(2, 3, "Sales",cFormat1);   
             excelSheet1.addCell(label);
 
-            label = new Label(3, 4, "Customer : ",cFormat2);
+            label = new Label(0, 4, "Customer : ",cFormat2);
             excelSheet1.addCell(label);
 
-            label = new Label(4, 4, combo_customer.getSelectedItem().toString(),cFormat2);
+            label = new Label(1, 4, combo_customer.getSelectedItem().toString(),cFormat2);
             excelSheet1.addCell(label);
 
-            label = new Label(3, 5, "Product : ",cFormat2);
+            label = new Label(0, 6, "Product : ",cFormat2);
             excelSheet1.addCell(label);
 
-            label = new Label(4, 5, combo_product.getSelectedItem().toString(),cFormat2);
+            label = new Label(1, 6, combo_product.getSelectedItem().toString(),cFormat2);
             excelSheet1.addCell(label);
             
-            label = new Label(6, 4, "Payement : ",cFormat2);
+            label = new Label(3, 4, "Payement : ",cFormat2);
             excelSheet1.addCell(label);
 
-            label = new Label(7, 4, combo_payment_type.getSelectedItem().toString(),cFormat2);
+            label = new Label(4, 4, combo_payment_type.getSelectedItem().toString(),cFormat2);
             excelSheet1.addCell(label);
 
             //Table - Header
             for (int i = 0; i <= sales_table.getColumnCount() - 1; i++) {
-                label = new Label(3 + i, 6, sales_table.getColumnName(i),cFormat4);
+                label = new Label(0 + i, 7, sales_table.getColumnName(i),cFormat4);
                 excelSheet1.addCell(label);
             }
 
@@ -751,16 +751,16 @@ public class FinalReport extends javax.swing.JDialog {
                 for (int j = 0; j < sales_table.getColumnCount(); j++) {
                     for (int i = 0; i < sales_table.getRowCount(); i++) {
                     salesfield = sales_table.getValueAt(i, j).toString();
-                    label = new Label(3 + j, 7 + i, salesfield, cFormat3);
+                    label = new Label(0 + j, 8 + i, salesfield, cFormat3);
                     excelSheet1.addCell(label);
                     
                     if(i==sales_table.getRowCount()-1){
                        // System.out.println(i);
                         
-                    label = new Label(5, 9 + i, "Total : ",cFormat2);
+                    label = new Label(2, 10 + i, "Total : ",cFormat2);
                     excelSheet1.addCell(label);
                     
-                    label = new Label(6, 9 + i, sales.getText(),cFormat2);
+                    label = new Label(3, 10 + i, sales.getText(),cFormat2);
                     excelSheet1.addCell(label);
                     }
                 }
@@ -827,28 +827,29 @@ public class FinalReport extends javax.swing.JDialog {
             cFormat3p.setBorder(Border.ALL, BorderLineStyle.THIN);
                 
             //Purchase -Header
-                
-            Label label2 = new Label(6, 1, "Purchase Report:" + " From " + Date1 + " To " + Date2, cFormatp);
+            
+            excelSheet2.mergeCells(0, 1, 6, 1);
+            Label label2 = new Label(0, 1, "Purchase Report:" + " From " + Date1 + " To " + Date2, cFormatp);
             excelSheet2.addCell(label2);
                 
-            label2 = new Label(5, 3, "Purchase",cFormat1p);
+            label2 = new Label(2, 3, "Purchase",cFormat1p);
             excelSheet2.addCell(label2);
 
-            label2 = new Label(3, 4, "Supplier : ",cFormat2p);
+            label2 = new Label(0, 4, "Supplier : ",cFormat2p);
             excelSheet2.addCell(label2);
 
-            label2 = new Label(4, 4, combo_supplier.getSelectedItem().toString(),cFormat2p);
+            label2 = new Label(1, 4, combo_supplier.getSelectedItem().toString(),cFormat2p);
             excelSheet2.addCell(label2);
 
-            label2 = new Label(3, 5, "Payement : ",cFormat2p);
+            label2 = new Label(3, 4, "Payement : ",cFormat2p);
             excelSheet2.addCell(label2);
 
-            label2 = new Label(4, 5, combo_supplier_type.getSelectedItem().toString(),cFormat2p);
+            label2 = new Label(4, 4, combo_supplier_type.getSelectedItem().toString(),cFormat2p);
             excelSheet2.addCell(label2);
 
             //Table - Header
             for (int i = 0; i <= purchase_table.getColumnCount() - 1; i++) {
-                label2 = new Label(3 + i, 6, purchase_table.getColumnName(i),cFormat4p);
+                label2 = new Label(0 + i, 7, purchase_table.getColumnName(i),cFormat4p);
                 excelSheet2.addCell(label2);
             }
 
@@ -858,15 +859,15 @@ public class FinalReport extends javax.swing.JDialog {
                 for (int j = 0; j < purchase_table.getColumnCount(); j++) {
                     for (int i = 0; i < purchase_table.getRowCount(); i++) {
                     purchasefield = purchase_table.getValueAt(i, j).toString();
-                    label2 = new Label(3 + j, 7 + i, purchasefield, cFormat3p);
+                    label2 = new Label(0 + j, 8 + i, purchasefield, cFormat3p);
                     excelSheet2.addCell(label2);
                     
                     if(i==purchase_table.getRowCount()-1){
                        
-                    label2 = new Label(5, 9 + i, "Total : ",cFormat2p);
+                    label2 = new Label(2, 10 + i, "Total : ",cFormat2p);
                     excelSheet2.addCell(label2);
                     
-                    label2 = new Label(6, 9 + i, purchases.getText(),cFormat2p);
+                    label2 = new Label(3, 10 + i, purchases.getText(),cFormat2p);
                     excelSheet2.addCell(label2);
                     }
                 }

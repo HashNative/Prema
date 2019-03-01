@@ -396,9 +396,14 @@ public class PurchaseReport extends javax.swing.JDialog {
     }//GEN-LAST:event_invoicetableMouseClicked
 
     private void invoicetableKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_invoicetableKeyPressed
+<<<<<<< HEAD
        if ("admin".equals(userid)) {
            System.out.println(userid);
           if (evt.getKeyCode() == KeyEvent.VK_DELETE) {
+=======
+        if ("admin".equals(userid)) {
+            if (evt.getKeyCode() == KeyEvent.VK_DELETE) {
+>>>>>>> refs/remotes/origin/master
             if(invoicetable.getSelectedRowCount()>0){
                 int dialogButton = JOptionPane.YES_NO_OPTION;
                 int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure to you want to delete GRN?", "delete Confirmation", dialogButton);
