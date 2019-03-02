@@ -2841,7 +2841,7 @@ t.schedule(new TimerTask() {
         int dialogButton = JOptionPane.YES_NO_OPTION;
         int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure to you want to Print Invoice?", "Print Confirmation", dialogButton);
         if (dialogResult == JOptionPane.YES_OPTION) {
-            
+            getInvoiceNo();
             InsertToInvoice();
 
         }
@@ -2998,7 +2998,7 @@ t.schedule(new TimerTask() {
         int dialogButton = JOptionPane.YES_NO_OPTION;
         int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure to you want to Print GRN?", "Print Confirmation", dialogButton);
         if (dialogResult == JOptionPane.YES_OPTION) {
-
+            getGRNNo();
             InsertToGRN();
 
         }
