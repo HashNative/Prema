@@ -8,7 +8,7 @@
 		 printOrder="Vertical"
 		 orientation="Portrait"
 		 pageWidth="216"
-		 pageHeight="1000"
+		 pageHeight="2000"
 		 columnWidth="216"
 		 columnSpacing="0"
 		 leftMargin="0"
@@ -81,7 +81,7 @@ WHERE  invoice.`ino` = $P{ID}]]></queryString>
 			</band>
 		</background>
 		<title>
-			<band height="107"  isSplitAllowed="true" >
+			<band height="101"  isSplitAllowed="true" >
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="248"
@@ -120,14 +120,14 @@ Habanhenawatta, Walgama, Athurugiriya
 						key="staticText-58"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Center">
-						<font pdfFontName="Helvetica-Bold" size="18" isBold="true"/>
+						<font pdfFontName="Helvetica-Bold" size="24" isBold="true"/>
 					</textElement>
 				<text><![CDATA[Prema]]></text>
 				</staticText>
 			</band>
 		</title>
 		<pageHeader>
-			<band height="56"  isSplitAllowed="true" >
+			<band height="70"  isSplitAllowed="true" >
 				<staticText>
 					<reportElement
 						x="0"
@@ -145,21 +145,21 @@ Habanhenawatta, Walgama, Athurugiriya
 					<reportElement
 						x="19"
 						y="15"
-						width="46"
-						height="9"
+						width="55"
+						height="14"
 						key="staticText-29"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement>
-						<font fontName="Verdana" size="7"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Verdana" size="10"/>
 					</textElement>
-				<text><![CDATA[Dispatch No :]]></text>
+				<text><![CDATA[Dispatch : No :]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="135"
-						y="16"
-						width="55"
-						height="9"
+						x="127"
+						y="17"
+						width="67"
+						height="10"
 						key="textField"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Right">
@@ -169,10 +169,10 @@ Habanhenawatta, Walgama, Athurugiriya
 				</textField>
 				<staticText>
 					<reportElement
-						x="111"
-						y="16"
+						x="110"
+						y="17"
 						width="24"
-						height="8"
+						height="10"
 						key="staticText-8"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
@@ -183,7 +183,7 @@ Habanhenawatta, Walgama, Athurugiriya
 				<staticText>
 					<reportElement
 						x="0"
-						y="47"
+						y="62"
 						width="216"
 						height="8"
 						key="staticText-14"/>
@@ -196,65 +196,66 @@ Habanhenawatta, Walgama, Athurugiriya
 				<staticText>
 					<reportElement
 						x="19"
-						y="25"
-						width="46"
-						height="9"
+						y="31"
+						width="62"
+						height="13"
 						key="staticText-30"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Verdana" size="7"/>
+						<font fontName="Verdana" size="10"/>
 					</textElement>
 				<text><![CDATA[Customer :]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="63"
-						y="25"
-						width="132"
-						height="9"
-						key="textField-1"/>
+						x="81"
+						y="31"
+						width="113"
+						height="13"
+						key="textField-1"
+						stretchType="RelativeToBandHeight"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Verdana" size="7"/>
+						<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{invoice_Customer}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
 						x="19"
-						y="37"
-						width="46"
-						height="9"
+						y="44"
+						width="64"
+						height="16"
 						key="staticText-31"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Verdana" size="7"/>
+						<font fontName="Verdana" size="11"/>
 					</textElement>
 				<text><![CDATA[Vehicle No:]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="63"
+						x="74"
 						y="15"
-						width="50"
-						height="10"
+						width="61"
+						height="14"
 						key="textField"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement>
-						<font size="7"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{invoice_ino}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="63"
-						y="37"
-						width="131"
-						height="9"
+						x="83"
+						y="44"
+						width="111"
+						height="16"
 						key="textField"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Left">
-						<font fontName="Verdana" size="7"/>
+						<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="11" isBold="true"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{invoice_Plate_no}]]></textFieldExpression>
 				</textField>
@@ -292,89 +293,89 @@ Habanhenawatta, Walgama, Athurugiriya
 			</band>
 		</columnHeader>
 		<detail>
-			<band height="54"  isSplitAllowed="true" >
+			<band height="53"  isSplitAllowed="true" >
 				<staticText>
 					<reportElement
 						x="16"
 						y="5"
-						width="53"
+						width="68"
 						height="12"
 						key="staticText-55"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Verdana" pdfFontName="Helvetica" size="7" isBold="false"/>
+						<font fontName="Verdana" pdfFontName="Helvetica" size="9" isBold="false"/>
 					</textElement>
-				<text><![CDATA[1ST WEIGHT]]></text>
+				<text><![CDATA[1ST WEIGHT :]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="69"
+						x="84"
 						y="5"
 						width="68"
 						height="12"
 						key="textField-15"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Verdana" size="8"/>
+						<font fontName="Verdana" size="9"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{invoice_first_weight}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
 						x="16"
-						y="28"
-						width="53"
+						y="30"
+						width="68"
 						height="12"
 						key="staticText-56"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Verdana" pdfFontName="Helvetica" size="7" isBold="false"/>
+						<font fontName="Verdana" pdfFontName="Helvetica" size="9" isBold="false"/>
 					</textElement>
-				<text><![CDATA[2ND WEIGHT]]></text>
+				<text><![CDATA[2ND WEIGHT :]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="69"
-						y="28"
+						x="84"
+						y="30"
 						width="68"
 						height="12"
 						key="textField-16"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Verdana" size="8"/>
+						<font fontName="Verdana" size="9"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{invoice_second_weight}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="85"
+						x="88"
 						y="17"
 						width="100"
-						height="9"
+						height="12"
 						key="textField-17"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Right">
-						<font fontName="Verdana" size="7"/>
+						<font fontName="Verdana" size="9"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{invoice_intime}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="84"
-						y="40"
+						x="88"
+						y="42"
 						width="100"
-						height="9"
+						height="11"
 						key="textField"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Right" verticalAlignment="Top">
-						<font fontName="Verdana" size="7"/>
+						<font fontName="Verdana" size="9"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{invoice_outtime}]]></textFieldExpression>
 				</textField>
 			</band>
 		</detail>
 		<columnFooter>
-			<band height="207"  isSplitAllowed="true" >
+			<band height="242"  isSplitAllowed="true" >
 				<staticText>
 					<reportElement
 						x="0"
@@ -391,26 +392,26 @@ Habanhenawatta, Walgama, Athurugiriya
 				<staticText>
 					<reportElement
 						x="22"
-						y="33"
-						width="68"
+						y="30"
+						width="78"
 						height="14"
 						key="staticText-38"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font fontName="Verdana" size="10"/>
+						<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="11" isBold="true"/>
 					</textElement>
-				<text><![CDATA[Net Weight :]]></text>
+				<text><![CDATA[Net Weight:]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="110"
-						y="34"
-						width="84"
-						height="10"
+						x="109"
+						y="28"
+						width="85"
+						height="18"
 						key="textField-4"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Right">
-						<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+						<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="11" isBold="true"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{invoice_net_weight}]]></textFieldExpression>
 				</textField>
@@ -469,7 +470,7 @@ Habanhenawatta, Walgama, Athurugiriya
 				<staticText>
 					<reportElement
 						x="22"
-						y="16"
+						y="10"
 						width="111"
 						height="14"
 						key="staticText-44"/>
@@ -482,7 +483,7 @@ Habanhenawatta, Walgama, Athurugiriya
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="100"
-						y="17"
+						y="11"
 						width="94"
 						height="10"
 						key="textField-12"/>
@@ -534,20 +535,20 @@ Habanhenawatta, Walgama, Athurugiriya
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="43"
-						y="179"
+						y="173"
 						width="152"
 						height="13"
 						key="textField-14"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Right">
-						<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+						<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{invoice_due}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
 						x="21"
-						y="178"
+						y="172"
 						width="111"
 						height="14"
 						key="staticText-47"/>
@@ -560,20 +561,7 @@ Habanhenawatta, Walgama, Athurugiriya
 				<staticText>
 					<reportElement
 						x="0"
-						y="191"
-						width="227"
-						height="15"
-						key="staticText-48"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement>
-						<font fontName="Verdana" pdfFontName="Helvetica" size="7" isBold="true"/>
-					</textElement>
-				<text><![CDATA[-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------]]></text>
-				</staticText>
-				<staticText>
-					<reportElement
-						x="0"
-						y="171"
+						y="165"
 						width="227"
 						height="15"
 						key="staticText-49"/>
@@ -585,14 +573,14 @@ Habanhenawatta, Walgama, Athurugiriya
 				</staticText>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="90"
-						y="33"
+						x="98"
+						y="30"
 						width="50"
 						height="14"
 						key="textField"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement>
-						<font size="10"/>
+						<font pdfFontName="Helvetica-Bold" size="11" isBold="true"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[($P{sales_category})]]></textFieldExpression>
 				</textField>
@@ -657,7 +645,7 @@ Habanhenawatta, Walgama, Athurugiriya
 						key="textField"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Right">
-						<font pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+						<font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{invoice_total}]]></textFieldExpression>
 				</textField>
@@ -670,7 +658,7 @@ Habanhenawatta, Walgama, Athurugiriya
 						key="textField"/>
 					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
 					<textElement textAlignment="Right">
-						<font pdfFontName="Helvetica-Bold" size="9" isBold="true"/>
+						<font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{invoice_net_total}]]></textFieldExpression>
 				</textField>
@@ -700,14 +688,10 @@ Habanhenawatta, Walgama, Athurugiriya
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{invoice_transport}]]></textFieldExpression>
 				</textField>
-			</band>
-		</columnFooter>
-		<pageFooter>
-			<band height="34"  isSplitAllowed="true" >
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="50"
-						y="4"
+						x="49"
+						y="189"
 						width="132"
 						height="9"
 						key="textField-3"/>
@@ -719,8 +703,8 @@ Habanhenawatta, Walgama, Athurugiriya
 				</textField>
 				<staticText>
 					<reportElement
-						x="14"
-						y="4"
+						x="13"
+						y="189"
 						width="46"
 						height="9"
 						key="staticText-32"/>
@@ -732,8 +716,8 @@ Habanhenawatta, Walgama, Athurugiriya
 				</staticText>
 				<staticText>
 					<reportElement
-						x="5"
-						y="18"
+						x="4"
+						y="199"
 						width="210"
 						height="13"
 						key="staticText-25"/>
@@ -743,6 +727,23 @@ Habanhenawatta, Walgama, Athurugiriya
 					</textElement>
 				<text><![CDATA[System Designed : Hashnative : hello@hashnative.com]]></text>
 				</staticText>
+				<staticText>
+					<reportElement
+						x="-3"
+						y="185"
+						width="227"
+						height="15"
+						key="staticText-59"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font fontName="Verdana" pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
+					</textElement>
+				<text><![CDATA[-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------]]></text>
+				</staticText>
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="0"  isSplitAllowed="true" >
 			</band>
 		</pageFooter>
 		<summary>
