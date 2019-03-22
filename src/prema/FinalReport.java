@@ -208,7 +208,7 @@ public class FinalReport extends javax.swing.JDialog {
                 "All".equals(combo_product.getSelectedItem())) {
             try {
                 String sql = "Select * "
-                        + "from Invoice where Customer='" + combo_customer.getSelectedItem() + "' and Date  BETWEEN '" + Date1 + "%" + "' AND '" + Date2 + "%" + "' ";
+                        + "from Invoice where Payment_method" + paymentmethod + "and Date  BETWEEN '" + Date1 + "%" + "' AND '" + Date2 + "%" + "' ";
                 PreparedStatement pst = con.prepareStatement(sql);
                 ResultSet rs = pst.executeQuery();
 
@@ -234,17 +234,17 @@ public class FinalReport extends javax.swing.JDialog {
 
                 pst.close();
                 rs.close();
-            } catch (Exception e) {
+            } catch (Exception  e) {
 
-                JOptionPane.showMessageDialog(null, "3"+e);
+                JOptionPane.showMessageDialog(null, "3"+ e);
 
             }
         } else if ("All".equals(combo_customer.getSelectedItem()) && !"All".equals(combo_payment_type.getSelectedItem())&& 
                 !"All".equals(combo_product.getSelectedItem())) {
             try {
                 String sql = "Select * "
-                        + "from Invoice where Product='" + combo_product.getSelectedItem() + "' and Payment_method " + paymentmethod + " "
-                        + "and Date  BETWEEN '" + Date1 + "%" + "' AND '" + Date2 + "%" + "' ";
+                        + "from Invoice where Product='" + combo_product.getSelectedItem() + "' and Payment_method" + paymentmethod +
+                        "and Date  BETWEEN '" + Date1 + "%" + "' AND '" + Date2 + "%" + "' ";
                 PreparedStatement pst = con.prepareStatement(sql);
                 ResultSet rs = pst.executeQuery();
 
@@ -352,8 +352,8 @@ public class FinalReport extends javax.swing.JDialog {
                 "All".equals(combo_product.getSelectedItem())) {
             try {
                 String sql = "Select * "
-                        + "from Invoice where Customer='" + combo_customer.getSelectedItem() + "' and Payment_method " + paymentmethod + " "
-                        + "and Date  BETWEEN '" + Date1 + "%" + "' AND '" + Date2 + "%" + "' ";
+                        + "from Invoice where Customer='" + combo_customer.getSelectedItem() + "' and Payment_method" + paymentmethod +
+                        "and Date  BETWEEN '" + Date1 + "%" + "' AND '" + Date2 + "%" + "' ";
                 PreparedStatement pst = con.prepareStatement(sql);
                 ResultSet rs = pst.executeQuery();
 
@@ -388,8 +388,8 @@ public class FinalReport extends javax.swing.JDialog {
                 !"All".equals(combo_product.getSelectedItem())) {
             try {
                 String sql = "Select * "
-                        + "from Invoice where Customer='" + combo_customer.getSelectedItem() + "' and Payment_method " + paymentmethod + " "
-                        + "and Product = '" + combo_product.getSelectedItem() + "' "
+                        + "from Invoice where Customer='" + combo_customer.getSelectedItem() + "' and Payment_method" + paymentmethod +
+                        "and Product = '" + combo_product.getSelectedItem() + "' "
                         + "and Date  BETWEEN '" + Date1 + "%" + "' AND '" + Date2 + "%" + "' ";
                 PreparedStatement pst = con.prepareStatement(sql);
                 ResultSet rs = pst.executeQuery();
@@ -516,7 +516,7 @@ public class FinalReport extends javax.swing.JDialog {
         } else if (!"All".equals(combo_supplier.getSelectedItem()) && "All".equals(combo_supplier_type.getSelectedItem())) {
             try {
                 String sql = "Select * "
-                        + "from GRN where Supplier='" + combo_supplier.getSelectedItem() + "' and Date  BETWEEN '" + Date1 + "%" + "' AND '" + Date2 + "%" + "' ";
+                        + "from GRN where Supplier = '" + combo_supplier.getSelectedItem() + "' and Date  BETWEEN '" + Date1 + "%" + "' AND '" + Date2 + "%" + "' ";
                 PreparedStatement pst = con.prepareStatement(sql);
                 ResultSet rs = pst.executeQuery();
 

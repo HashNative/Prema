@@ -5,6 +5,7 @@
  */
 package prema;
 
+import backend.Read;
 import backend.ReportJasper;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
@@ -132,9 +133,9 @@ public class SalesReports extends javax.swing.JDialog {
                 v.add(rs.getString("User"));
                 v.add(rs.getString("Customer"));
                 v.add(rs.getString("Plate_no"));
-                
+                v.add(rs.getString("Product"));
                  if(!"user".equals(userid)){
-                     if("0".equals(rs.getString("first_weight")) ||"0".equals(rs.getString("first_weight"))){
+                     if("0".equals(rs.getString("first_weight")) ||"0".equals(rs.getString("second_weight"))){
                     v.add(rs.getString("net_weight")+" Cubes");
                     }else{
                     v.add(rs.getString("net_weight")+" Kg");
@@ -144,7 +145,7 @@ public class SalesReports extends javax.swing.JDialog {
                     v.add(rs.getString("transport"));
                     v.add(rs.getString("total"));
                 }else{
-                    if("0".equals(rs.getString("first_weight")) ||"0".equals(rs.getString("first_weight"))){
+                    if("0".equals(rs.getString("first_weight")) ||"0".equals(rs.getString("second_weight"))){
                     v.add(Double.parseDouble(rs.getString("net_weight"))*60/100+" Cubes");
                     }else{
                     v.add(Double.parseDouble(rs.getString("net_weight"))*60/100+" Kg");
@@ -181,9 +182,9 @@ public class SalesReports extends javax.swing.JDialog {
                 v.add(rs.getString("User"));
                 v.add(rs.getString("Customer"));
                 v.add(rs.getString("Plate_no"));
-                
+                v.add(rs.getString("Product"));
                  if(!"user".equals(userid)){
-                     if("0".equals(rs.getString("first_weight")) ||"0".equals(rs.getString("first_weight"))){
+                     if("0".equals(rs.getString("first_weight")) ||"0".equals(rs.getString("second_weight"))){
                     v.add(rs.getString("net_weight")+" Cubes");
                     }else{
                     v.add(rs.getString("net_weight")+" Kg");
@@ -193,7 +194,7 @@ public class SalesReports extends javax.swing.JDialog {
                 v.add(rs.getString("transport"));
                 v.add(rs.getString("total"));
                 }else{
-                     if("0".equals(rs.getString("first_weight")) ||"0".equals(rs.getString("first_weight"))){
+                     if("0".equals(rs.getString("first_weight")) ||"0".equals(rs.getString("second_weight"))){
                     v.add(Double.parseDouble(rs.getString("net_weight"))*60/100+" Cubes");
                     }else{
                     v.add(Double.parseDouble(rs.getString("net_weight"))*60/100+" Kg");
@@ -256,6 +257,7 @@ public class SalesReports extends javax.swing.JDialog {
         jDateChooser2 = new com.toedter.calendar.JDateChooser();
         jScrollPane5 = new javax.swing.JScrollPane();
         invoicetable = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Sales Report");
@@ -303,11 +305,11 @@ public class SalesReports extends javax.swing.JDialog {
 
             },
             new String [] {
-                "GRN No", "Date", "User", "Customer", "Plate No", "Weight / Cubes", "Discount", "Transport", "Total", "Payment Method"
+                "Invoice No", "Date", "User", "Customer", "Plate No", "Product", "Weight / Cubes", "Discount", "Transport", "Total", "Payment Method"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -331,6 +333,13 @@ public class SalesReports extends javax.swing.JDialog {
         });
         jScrollPane5.setViewportView(invoicetable);
 
+        jButton1.setText("Print Invoice");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -352,14 +361,18 @@ public class SalesReports extends javax.swing.JDialog {
                         .addComponent(jDateChooser3, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButton3)
-                        .addGap(0, 56, Short.MAX_VALUE))
+                        .addGap(0, 180, Short.MAX_VALUE))
                     .addComponent(jScrollPane5))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(423, 423, 423))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jDateChooser3, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -371,7 +384,8 @@ public class SalesReports extends javax.swing.JDialog {
                     .addComponent(jButton3))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton1))
         );
 
         pack();
@@ -450,6 +464,31 @@ public class SalesReports extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_invoicetableKeyReleased
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+       Read r = new Read();
+                  try {
+
+                    HashMap<String, Object> params = new HashMap<String, Object>();
+                    params.put("ID", invoicetable.getModel().getValueAt(invoicetable.getSelectedRow(), 0).toString() + "");
+                    params.put("image_url",(r.getProperty("path")) + "\\Prema\\Logo.PNG");
+                    String category = "Kg";
+                    if("Kg".equals(invoicetable.getModel().getValueAt(invoicetable.getSelectedRow(), 6).toString().split(" ")[1])){
+
+                    }else{
+                      category="Cube";
+                    }
+                    params.put("sales_category", category);
+                    if(!"Credit".equals(invoicetable.getModel().getValueAt(invoicetable.getSelectedRow(), 10).toString())){
+                    ReportJasper.printInvoice((r.getProperty("path")) + "\\Prema\\InvoiceNew.jrxml", params);
+                    }else{
+                    ReportJasper.printInvoice((r.getProperty("path")) + "\\Prema\\InvoiceCreditSale.jrxml", params);
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -498,6 +537,7 @@ public class SalesReports extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> combo_customer_search;
     private javax.swing.JTable invoicetable;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private com.toedter.calendar.JDateChooser jDateChooser2;
     private com.toedter.calendar.JDateChooser jDateChooser3;
